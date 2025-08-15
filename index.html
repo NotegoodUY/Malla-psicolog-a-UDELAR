@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Malla – Licenciatura en Psicología (Udelar)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Licenciatura en Psicología – Udelar</h1>
+    <p class="subtitle">Grilla interactiva de avance con previaturas</p>
+    <nav class="actions">
+      <a class="btn" href="malla.html">Ir a la malla</a>
+      <button id="btn-clear" class="btn btn-secondary">Reiniciar progreso</button>
+    </nav>
+  </header>
+
+  <main class="container narrow">
+    <section class="card">
+      <h2>¿Cómo funciona?</h2>
+      <ol>
+        <li>Entrá a la malla y marcá las materias <strong>aprobadas</strong> o <strong>cursando</strong>.</li>
+        <li>Las <strong>previaturas</strong> bloquean/desbloquean materias automáticamente.</li>
+        <li>Tu avance se guarda en este navegador (localStorage).</li>
+      </ol>
+      <p class="muted">Tip: podés pasar el mouse por una materia bloqueada para ver qué te falta.</p>
+    </section>
+  </main>
+
+  <script type="module">
+    import { resetState } from './app.js';
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      if (confirm('¿Seguro que querés borrar tu progreso guardado en este navegador?')) {
+        resetState();
+        alert('Listo. Tu grilla quedó en cero.');
+      }
+    });
+  </script>
+</body>
+</html>
