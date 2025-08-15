@@ -1,13 +1,19 @@
 /* THEME VARIABLES */
 :root{
+  --brand:#7c3aed;        /* Notegood violeta */
+  --brand-2:#ec4899;      /* Notegood rosa */
   --bg:#0f1115; --card:#151823; --text:#e8ecf1; --muted:#9aa4b2;
   --ok:#2ecc71; --warn:#f1c40f; --danger:#e74c3c; --border:#222635;
-  --btn:#1f2433; --btn-ghost:#121622;
+  --btn:#1f2433; --btn-fg:#e8ecf1;
+  --btn-ghost:#121622; --btn-ghost-fg:#e8ecf1;
+  --ring: 0 0 0 3px color-mix(in oklab, var(--brand) 35%, transparent);
 }
 :root[data-theme="light"]{
   --bg:#f6f7fb; --card:#ffffff; --text:#0f172a; --muted:#475569;
   --ok:#178f4f; --warn:#b78300; --danger:#b42318; --border:#e5e7eb;
-  --btn:#0f172a; --btn-ghost:#f1f5f9;
+  --btn:#111827; --btn-fg:#ffffff;
+  --btn-ghost:#ffffff; --btn-ghost-fg:#111827;
+  --ring: 0 0 0 3px color-mix(in oklab, var(--brand) 25%, transparent);
 }
 
 /* BASE */
@@ -22,6 +28,19 @@ code{background:rgba(127,127,127,.12);border-radius:6px;padding:1px 6px}
 .brand h1{margin:0;font-size:clamp(22px,2.3vw,36px)}
 .subtitle{margin:4px 0 0;color:var(--muted);font-weight:500}
 
+/* BADGE NOTEDGOOD */
+.brand-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;
+  background:linear-gradient(135deg, color-mix(in oklab, var(--brand) 18%, transparent), color-mix(in oklab, var(--brand-2) 18%, transparent));
+  border:1px solid var(--border); color:color-mix(in oklab, var(--text) 85%, #fff0);
+}
+.brand-badge .dot{
+  width:10px;height:10px;border-radius:50%;
+  background:linear-gradient(135deg, var(--brand), var(--brand-2));
+  border:none;
+}
+
 /* LAYOUT */
 .container{max-width:1200px;margin:24px auto;padding:0 16px}
 .container.narrow{max-width:900px}
@@ -35,11 +54,39 @@ code{background:rgba(127,127,127,.12);border-radius:6px;padding:1px 6px}
 
 /* BUTTONS */
 .actions{display:flex;gap:10px;flex-wrap:wrap}
-.btn{background:var(--btn);color:var(--text);border:1px solid var(--border);padding:9px 12px;border-radius:12px;cursor:pointer}
+
+.btn{
+  background:var(--btn);
+  color:var(--btn-fg);
+  border:1px solid var(--border);
+  padding:9px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:600;
+}
 .btn:hover{filter:brightness(1.05)}
-.btn-secondary{background:#151b28}
-.btn-danger{background:#2b1619;border-color:#4b1d23}
-.btn-ghost{background:var(--btn-ghost);border-color:var(--border)}
+.btn:focus-visible{outline:none; box-shadow:var(--ring)}
+
+.btn-secondary{background:color-mix(in oklab, var(--btn) 75%, var(--bg)); color:var(--btn-fg)}
+.btn-danger{background:#b91c1c;border-color:#7f1d1d;color:#fff}
+.btn-ghost{
+  background:var(--btn-ghost);
+  color:var(--btn-ghost-fg);
+  border:1px solid var(--border);
+}
+.btn-primary{
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color:#fff;
+  border:none;
+}
+.btn-outline{
+  background:transparent;
+  color:var(--brand);
+  border:1.5px solid color-mix(in oklab, var(--brand) 70%, var(--border));
+}
+.btn-outline:hover{
+  background: color-mix(in oklab, var(--brand) 8%, transparent);
+}
 
 /* MALLA */
 .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
