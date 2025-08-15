@@ -3,8 +3,9 @@
 // - Bloqueo/desbloqueo por previaturas
 // - Guarda progreso (aprobadas/cursando) en localStorage
 // - Render por columnas (1º a 8º sem + extra)
+// - Flow Notegood: frases, progreso, toasts lindos y confetti :)
 
-const DATA_URL = "materias_psico.json";
+const DATA_URL = "../materias_psico.json";
 const LS_STATE = "malla-psico-state-v1";
 
 const state = {
@@ -13,6 +14,24 @@ const state = {
   data: { areas: [], materias: [] },
   byCodigo: new Map(),
 };
+
+// --- Frases motivacionales (rotan)
+const QUOTES = [
+  "“La vida no es lo que te pasa, sino cómo respondes a ello.” — Epicteto",
+  "“Nada está perdido si se tiene el valor de proclamar que todo está perdido y hay que empezar de nuevo.” — Julio Cortázar",
+  "“No vemos las cosas como son, las vemos como somos.” — Anaïs Nin",
+  "“El éxito es la suma de pequeños esfuerzos repetidos día tras día.” — Robert Collier",
+  "“Donde tus talentos y las necesidades del mundo se cruzan, ahí está tu vocación.” — Aristóteles",
+  "“Si no puedes volar, corre; si no puedes correr, camina; pero sigue adelante.” — Martin Luther King Jr.",
+  "“Cambiar es difícil al principio, caótico en el medio y precioso al final.” — Robin Sharma",
+  "“La motivación te pone en marcha, el hábito te mantiene.” — Jim Ryun"
+];
+
+function setRandomQuote() {
+  const q = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+  const box = document.getElementById("quote-box");
+  if (box) box.textContent = q;
+}
 
 // ---- Storage helpers
 function loadState() {
@@ -35,28 +54,50 @@ export function resetState() {
   localStorage.removeItem(LS_STATE);
   state.aprobadas.clear();
   state.cursando.clear();
-  // no reload here; caller decides
 }
 
 // ---- Utils DOM
 const $ = (sel) => document.querySelector(sel);
 const container = $("#malla-container");
 
-function toast(msg, ms = 1600) {
+function toast(msg, ms = 1800) {
   const el = document.createElement("div");
   el.className = "toast";
   el.textContent = msg;
   document.body.appendChild(el);
-  setTimeout(() => el.classList.add("show"), 10);
+  // animate in/out
+  requestAnimationFrame(() => el.classList.add("show"));
   setTimeout(() => {
     el.classList.remove("show");
     setTimeout(() => el.remove(), 250);
   }, ms);
 }
 
+function confettiBurst(x = window.innerWidth / 2, y = 80) {
+  const n = 22;
+  for (let i = 0; i < n; i++) {
+    const p = document.createElement("i");
+    p.className = "confetti";
+    p.style.left = `${x}px`;
+    p.style.top = `${y}px`;
+    const angle = (Math.PI * 2 * i) / n;
+    const speed = 2 + Math.random() * 3;
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed - 2;
+    p.style.setProperty("--vx", vx);
+    p.style.setProperty("--vy", vy);
+    p.style.background = i % 2 ? "var(--brand)" : "var(--brand-2)";
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 1200);
+  }
+}
+
 // ---- App init
 async function init() {
   loadState();
+  setRandomQuote();
+  setInterval(setRandomQuote, 12000);
+
   const res = await fetch(DATA_URL);
   const data = await res.json();
   state.data = data;
@@ -64,24 +105,30 @@ async function init() {
 
   renderLegend();
   renderGrid();
+  updateProgress();
 
   // Toolbar
-  $("#toggle-cursando")?.addEventListener("change", renderGrid);
-  $("#toggle-bloqueadas")?.addEventListener("change", renderGrid);
-  $("#search")?.addEventListener("input", renderGrid);
+  $("#toggle-cursando")?.addEventListener("change", () => { renderGrid(); });
+  $("#toggle-bloqueadas")?.addEventListener("change", () => { renderGrid(); });
+  $("#search")?.addEventListener("input", () => { renderGrid(); });
+
   $("#btn-clear")?.addEventListener("click", () => {
     if (confirm("¿Seguro que querés borrar tu avance?")) {
       resetState();
       renderGrid();
-      toast("Avance reiniciado.");
+      updateProgress();
+      toast("Avance reiniciado ✨");
     }
   });
+
+  // Export/Import son opcionales; si no existen, no pasa nada
   $("#btn-export")?.addEventListener("click", exportProgress);
   $("#btn-import")?.addEventListener("click", importProgress);
 }
 
 function renderLegend() {
   const wrap = $("#legend");
+  if (!wrap) return;
   wrap.innerHTML = "";
   state.data.areas.forEach(a => {
     const chip = document.createElement("div");
@@ -125,6 +172,8 @@ function renderGrid() {
   }
 
   container.innerHTML = "";
+  let totalRendered = 0;
+
   for (const [sem, arr] of cols) {
     const col = document.createElement("div");
     col.className = "column";
@@ -140,6 +189,8 @@ function renderGrid() {
 
       if (!showLocked && locked && !isAprob && !isCurs) return;
       if (!showCurs && isCurs) return;
+
+      totalRendered++;
 
       const card = document.createElement("div");
       card.className = "card-materia";
@@ -158,15 +209,13 @@ function renderGrid() {
       t.className = "title";
       t.textContent = m.nombre;
 
-      head.appendChild(dot);
-      head.appendChild(badge);
-      head.appendChild(t);
+      head.append(dot, badge, t);
 
       // meta
       const meta = document.createElement("div");
       meta.className = "meta";
       meta.textContent = [
-        m.areaNombre ? m.areaNombre : areaName(m.area),
+        areaName(m.area),
         m.creditos ? `· ${m.creditos} cr.` : "",
         m.semestre ? `· S${m.semestre}` : ""
       ].filter(Boolean).join(" ");
@@ -174,9 +223,9 @@ function renderGrid() {
       // tags
       const tags = document.createElement("div");
       tags.className = "tags";
-      if (isAprob) addTag(tags, "APROBADA");
-      if (isCurs) addTag(tags, "CURSANDO");
-      if (locked && !isAprob && !isCurs) addTag(tags, "BLOQUEADA");
+      if (isAprob) addTag(tags, "APROBADA ✅");
+      if (isCurs) addTag(tags, "CURSANDO ⏳");
+      if (locked && !isAprob && !isCurs) addTag(tags, "BLOQUEADA 🔒");
 
       // state buttons
       const bar = document.createElement("div");
@@ -184,17 +233,35 @@ function renderGrid() {
       const b1 = document.createElement("button");
       b1.className = "state-ok";
       b1.textContent = isAprob ? "✓ Marcada aprobada" : "Marcar aprobada";
-      b1.addEventListener("click", () => {
+      b1.addEventListener("click", (ev) => {
+        const before = state.aprobadas.has(m.codigo);
         toggleAprobada(m.codigo);
         renderGrid();
+        updateProgress();
+        if (!before && state.aprobadas.has(m.codigo)) {
+          // mensajes simpáticos
+          const msgs = [
+            "¡Otra tachada! 💪",
+            "Sumaste progreso, crack ✨",
+            "Paso a paso, ¡pero firmes! 🧠",
+            "¡Bien ahí! Cada materia cuenta 💜",
+            "Notegood vibra: ¡lo lograste! 🌈"
+          ];
+          toast(msgs[Math.floor(Math.random()*msgs.length)]);
+          const rect = ev.target.getBoundingClientRect();
+          confettiBurst(rect.left + rect.width/2, rect.top + window.scrollY);
+        }
       });
+
       const b2 = document.createElement("button");
       b2.className = "state-warn";
       b2.textContent = isCurs ? "⏳ Marcada cursando" : "Marcar cursando";
       b2.addEventListener("click", () => {
         toggleCursando(m.codigo);
         renderGrid();
+        toast("¡A cursar se ha dicho! 📚");
       });
+
       const b3 = document.createElement("button");
       b3.className = "state-locked";
       b3.textContent = "Ver requisitos";
@@ -215,6 +282,15 @@ function renderGrid() {
     });
 
     container.appendChild(col);
+  }
+
+  if (totalRendered === 0) {
+    const empty = document.createElement("div");
+    empty.className = "card";
+    empty.style.gridColumn = "1 / -1";
+    empty.innerHTML = `🤔 No hay materias que coincidan con tu búsqueda.<br>
+    <span class="muted">Probá borrar el texto o revisar los filtros.</span>`;
+    container.appendChild(empty);
   }
 }
 
@@ -270,10 +346,11 @@ function tooltipHtml(m) {
     <em>${areaName(m.area)}</em> · ${m.creditos || "-"} cr. · S${m.semestre || "-"}<br/>
     <hr style="border-color:#222635">
     <div><strong>Previaturas:</strong> ${prev.length ? prev.join("; ") : "—"}</div>
+    <div style="margin-top:4px;color:var(--muted)">Tip: marcá lo del ciclo inicial para destrabar más materias.</div>
   `;
 }
 
-// Export / Import
+// Export / Import (no usados si no hay botones)
 function exportProgress(){
   const payload = {
     when: new Date().toISOString(),
@@ -302,12 +379,35 @@ function importProgress(){
       state.cursando = new Set(obj.cursando || []);
       saveState();
       renderGrid();
+      updateProgress();
       toast("Avance importado.");
     }catch(e){
       alert("Archivo inválido.");
     }
   };
   inp.click();
+}
+
+// ---- Progreso general
+function updateProgress(){
+  const total = state.data.materias.filter(m => m.creditos !== 0 && m.semestre <= 8).length;
+  const aprob = state.aprobadas.size;
+  const pct = total ? Math.round((aprob/total)*100) : 0;
+
+  const bar = $("#progress-bar");
+  const label = $("#progress-label");
+  const msg = $("#progress-msg");
+  if (!bar || !label || !msg) return;
+
+  bar.style.width = pct + "%";
+  label.textContent = `${aprob}/${total} (${pct}%)`;
+
+  if (pct === 0) msg.textContent = "¡Primer paso listo! Sumá tu primera materia 😊";
+  else if (pct < 25) msg.textContent = "Buen comienzo, constancia mata talento 💜";
+  else if (pct < 50) msg.textContent = "¡Ya se siente el avance! Seguimos 🧠";
+  else if (pct < 75) msg.textContent = "Más de la mitad, enorme 👏";
+  else if (pct < 100) msg.textContent = "Último tramo, ¡a fondo! 🚀";
+  else msg.textContent = "¡Malla completada! Te esperamos en el Parque Batlle a festejar 😜";
 }
 
 document.addEventListener("DOMContentLoaded", init);
