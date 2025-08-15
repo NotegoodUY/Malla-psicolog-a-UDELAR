@@ -3,8 +3,7 @@ const THEME_KEY = "ng-theme";
 
 export function initTheme() {
   const saved = localStorage.getItem(THEME_KEY);
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const theme = saved || (prefersDark ? "dark" : "light");
+  const theme = saved || "light"; // por defecto: claro
   applyTheme(theme);
 }
 
