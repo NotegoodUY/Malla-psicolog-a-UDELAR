@@ -1,0 +1,94 @@
+{
+  "areas": [
+    { "codigo": "P",   "nombre": "Psicología (núcleo)", "color": "#f59e0b" },
+    { "codigo": "M",   "nombre": "Metodología",          "color": "#22c55e" },
+    { "codigo": "R",   "nombre": "Referencial / Idiomas", "color": "#60a5fa" },
+    { "codigo": "AS",  "nombre": "Articulación de Saberes", "color": "#a78bfa" },
+    { "codigo": "SOC", "nombre": "Psicología Social",     "color": "#f43f5e" },
+    { "codigo": "CL",  "nombre": "Clínica",               "color": "#fb7185" },
+    { "codigo": "SAL", "nombre": "Salud / Educación",     "color": "#34d399" },
+    { "codigo": "NEU", "nombre": "Neuro / Procesos",      "color": "#06b6d4" },
+    { "codigo": "PRO", "nombre": "Proyectos / Prácticas / TFG", "color": "#94a3b8" },
+    { "codigo": "OPT", "nombre": "Optativas Graduación",  "color": "#eab308" }
+  ],
+  "materias": [
+    /* ===================== 1º SEMESTRE ===================== */
+    { "codigo": "P101", "nombre": "Fundamentos de la Psicología", "area": "P", "semestre": 1, "creditos": 6, "previaturas": [] },
+    { "codigo": "P102", "nombre": "Teorías Psicológicas (curso)", "area": "P", "semestre": 1, "creditos": 6, "previaturas": [] },
+    { "codigo": "P103", "nombre": "Psicología del Desarrollo (curso)", "area": "P", "semestre": 1, "creditos": 6, "previaturas": [] },
+    { "codigo": "NEU101", "nombre": "Procesos Cognitivos (curso)", "area": "NEU", "semestre": 1, "creditos": 6, "previaturas": [] },
+    { "codigo": "R101", "nombre": "Inicio a la Formación en Psicología (Referencial I)", "area": "R", "semestre": 1, "creditos": 4, "previaturas": [] },
+    { "codigo": "M101", "nombre": "Metodología General de la Investigación (curso)", "area": "M", "semestre": 1, "creditos": 6, "previaturas": [] },
+    { "codigo": "M102", "nombre": "Herramientas para el trabajo intelectual", "area": "M", "semestre": 1, "creditos": 4, "previaturas": [] },
+    { "codigo": "EXT101", "nombre": "Metodologías y herramientas orientadas a la Extensión", "area": "R", "semestre": 1, "creditos": 4, "previaturas": [] },
+
+    /* ===================== 2º SEMESTRE ===================== */
+    { "codigo": "P104", "nombre": "Teorías Psicológicas (examen)", "area": "P", "semestre": 2, "creditos": 0, "previaturas": ["P102"] },
+    { "codigo": "P105", "nombre": "Psicología del Desarrollo (examen)", "area": "P", "semestre": 2, "creditos": 0, "previaturas": ["P103"] },
+    { "codigo": "NEU102", "nombre": "Neurobiología de la mente (curso)", "area": "NEU", "semestre": 2, "creditos": 6, "previaturas": [] },
+    { "codigo": "NEU103", "nombre": "Neurobiología de la mente (examen)", "area": "NEU", "semestre": 2, "creditos": 0, "previaturas": ["NEU102"] },
+    { "codigo": "NEU104", "nombre": "Procesos Cognitivos (examen)", "area": "NEU", "semestre": 2, "creditos": 0, "previaturas": ["NEU101"] },
+    { "codigo": "M103", "nombre": "Epistemología (curso)", "area": "M", "semestre": 2, "creditos": 6, "previaturas": [] },
+    { "codigo": "M104", "nombre": "Epistemología (examen)", "area": "M", "semestre": 2, "creditos": 0, "previaturas": ["M103"] },
+    { "codigo": "ENT101", "nombre": "Entrevista Psicológica", "area": "CL", "semestre": 2, "creditos": 6, "previaturas": ["R101"] },
+    { "codigo": "R102", "nombre": "Referencial II: Formación Integral", "area": "R", "semestre": 2, "creditos": 4, "previaturas": ["R101"] },
+    { "codigo": "MAS102", "nombre": "MAS II: Psicología, Género y Derechos Humanos", "area": "SOC", "semestre": 2, "creditos": 4, "previaturas": [] },
+
+    /* ===================== 3º SEMESTRE ===================== */
+    { "codigo": "P201", "nombre": "Psicología Sujeto y Aprendizaje", "area": "P", "semestre": 3, "creditos": 6, "previaturas": ["P102","P103","NEU101"] },
+    { "codigo": "M201", "nombre": "Métodos y Técnicas Cuantitativas y Cualitativas", "area": "M", "semestre": 3, "creditos": 8, "previaturas": ["M101","M104"] },
+    { "codigo": "AS101", "nombre": "Articulación de Saberes I (curso)", "area": "AS", "semestre": 3, "creditos": 4, "previaturas": ["P102"] },
+    { "codigo": "AS102", "nombre": "Articulación de Saberes I (examen)", "area": "AS", "semestre": 3, "creditos": 0, "previaturas": ["AS101"] },
+    { "codigo": "SOC201", "nombre": "Psicología Social (curso)", "area": "SOC", "semestre": 3, "creditos": 6, "previaturas": ["M101","M104"] },
+    { "codigo": "SOC202", "nombre": "Psicología Social (examen)", "area": "SOC", "semestre": 3, "creditos": 0, "previaturas": ["SOC201","P102"] },
+    { "codigo": "ETI201", "nombre": "Ética y Deontología (curso)", "area": "P", "semestre": 3, "creditos": 4, "previaturas": ["M104"] },
+    { "codigo": "ETI202", "nombre": "Ética y Deontología (examen)", "area": "P", "semestre": 3, "creditos": 0, "previaturas": ["ETI201","M104"] },
+
+    /* ===================== 4º SEMESTRE ===================== */
+    { "codigo": "CL301", "nombre": "Clínica I: Fundamentos Psicoanalíticos (curso)", "area": "CL", "semestre": 4, "creditos": 6, "previaturas": ["ENT101","AS102","P104","P101"] },
+    { "codigo": "CL302", "nombre": "Clínica I: Fundamentos Psicoanalíticos (examen)", "area": "CL", "semestre": 4, "creditos": 0, "previaturas": ["CL301","AS102","P104","P101"] },
+    { "codigo": "SAL301", "nombre": "Psicología y Salud (curso)", "area": "SAL", "semestre": 4, "creditos": 6, "previaturas": ["AS102","P104","P101"] },
+    { "codigo": "SAL302", "nombre": "Psicología y Salud (examen)", "area": "SAL", "semestre": 4, "creditos": 0, "previaturas": ["SAL301","AS102","P104","P101"] },
+    { "codigo": "CL303", "nombre": "Herramientas de la Psicología Clínica", "area": "CL", "semestre": 4, "creditos": 6, "previaturas": ["ENT101"] },
+    { "codigo": "SOC301", "nombre": "Herramientas de la Psicología Social", "area": "SOC", "semestre": 4, "creditos": 6, "previaturas": ["SOC201"] },
+    { "codigo": "AS201", "nombre": "Articulación de Saberes II (curso)", "area": "AS", "semestre": 4, "creditos": 4, "previaturas": ["AS102"] },
+    { "codigo": "AS202", "nombre": "Articulación de Saberes II (examen)", "area": "AS", "semestre": 4, "creditos": 0, "previaturas": ["AS201"] },
+
+    /* ===================== 5º SEMESTRE ===================== */
+    { "codigo": "CL401", "nombre": "Clínica II: Teorías y Técnicas de las Intervenciones (curso)", "area": "CL", "semestre": 5, "creditos": 6, "previaturas": ["CL301","AS201","P104","P101"] },
+    { "codigo": "CL402", "nombre": "Clínica II: Teorías y Técnicas de las Intervenciones (examen)", "area": "CL", "semestre": 5, "creditos": 0, "previaturas": ["CL401","CL303","ENT101","R101"] },
+    { "codigo": "CL403", "nombre": "Psicopatología de adultos", "area": "CL", "semestre": 5, "creditos": 6, "previaturas": ["CL301","AS201","P104","P101"] },
+    { "codigo": "CL404", "nombre": "Psicopatología de niños y adolescentes", "area": "CL", "semestre": 5, "creditos": 6, "previaturas": ["CL301","AS201","P104","P101"] },
+    { "codigo": "NEU201", "nombre": "Neuropsicología", "area": "NEU", "semestre": 5, "creditos": 6, "previaturas": ["NEU104","NEU103","NEU101"] },
+    { "codigo": "PROJ301", "nombre": "Diseño de Proyectos", "area": "PRO", "semestre": 5, "creditos": 4, "previaturas": ["M201","M102"] },
+    { "codigo": "ITIN301", "nombre": "Construcción de Itinerario", "area": "PRO", "semestre": 5, "creditos": 2, "previaturas": ["SOC202","AS102","P104","P101"] },
+
+    /* ===================== 6º SEMESTRE ===================== */
+    { "codigo": "SOC401", "nombre": "MAS IV: Estado, Sociedad y Políticas Públicas", "area": "SOC", "semestre": 6, "creditos": 4, "previaturas": ["SOC201","AS101","P102","P101"] },
+    { "codigo": "SOC402", "nombre": "MAS V: La psicología social y el problema de lo colectivo", "area": "SOC", "semestre": 6, "creditos": 4, "previaturas": ["SOC401","MAS102"] },
+    { "codigo": "EDU401", "nombre": "Psicología y Educación", "area": "SAL", "semestre": 6, "creditos": 6, "previaturas": ["P201","NEU101","NEU102","P103","P101"] },
+    { "codigo": "SOC403", "nombre": "Problemáticas contemporáneas de la psicología social", "area": "SOC", "semestre": 6, "creditos": 6, "previaturas": ["SOC301","SOC201","P102","P101","AS101"] },
+    { "codigo": "AS301", "nombre": "Articulación de Saberes III (curso)", "area": "AS", "semestre": 6, "creditos": 4, "previaturas": ["AS202"] },
+    { "codigo": "AS302", "nombre": "Articulación de Saberes III (examen)", "area": "AS", "semestre": 6, "creditos": 0, "previaturas": ["AS301"] },
+
+    /* ===================== 7º-8º / EXTRAS ===================== */
+    { "codigo": "AS401", "nombre": "Articulación de Saberes IV: Estado, Sociedad y Políticas Públicas (curso)", "area": "AS", "semestre": 7, "creditos": 4, "previaturas": ["AS302","AS202"] },
+    { "codigo": "AS402", "nombre": "Articulación de Saberes IV (examen)", "area": "AS", "semestre": 7, "creditos": 0, "previaturas": ["AS401","AS202"] },
+    { "codigo": "AS601", "nombre": "Articulación de Saberes VI: Diálogos y ámbitos interdisciplinarios", "area": "AS", "semestre": 7, "creditos": 4, "previaturas": ["AS302"] },
+
+    { "codigo": "PRO401", "nombre": "Proyectos", "area": "PRO", "semestre": 8, "creditos": 6, "previaturas": ["PROJ301","M201"] },
+    { "codigo": "PRA401", "nombre": "Práctica de Ciclo Formación Integral", "area": "PRO", "semestre": 8, "creditos": 10, "previaturas": ["CICLO_INICIAL_COMPLETO"] },
+    { "codigo": "PRA402", "nombre": "Práctica de Graduación", "area": "PRO", "semestre": 8, "creditos": 10, "previaturas": ["PRA401","P101","SAL302","P201","CL301","AS302","CL303","SOC201"] },
+
+    { "codigo": "CL501", "nombre": "Dispositivos Psicoterapéuticos", "area": "CL", "semestre": 8, "creditos": 4, "previaturas": ["CL401","CL303","ENT101","R101"] },
+
+    { "codigo": "OPT701", "nombre": "Optativas del Ciclo de Graduación", "area": "OPT", "semestre": 7, "creditos": 0, "previaturas": [] },
+    { "codigo": "R201", "nombre": "Inglés / Portugués", "area": "R", "semestre": 7, "creditos": 0, "previaturas": [] },
+
+    { "codigo": "TFG401", "nombre": "Tutoría TFG", "area": "PRO", "semestre": 8, "creditos": 0, "previaturas": ["PRA401"] },
+    { "codigo": "TFG402", "nombre": "TFG + Defensa", "area": "PRO", "semestre": 8, "creditos": 0, "previaturas": ["TFG401","PRA402"] },
+
+    /* ===================== MARCADORES / BANDERAS ===================== */
+    { "codigo": "CICLO_INICIAL_COMPLETO", "nombre": "Ciclo Inicial Completo (marcador)", "area": "R", "semestre": 9, "creditos": 0, "previaturas": [] }
+  ]
+}
