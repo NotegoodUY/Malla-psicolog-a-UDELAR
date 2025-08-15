@@ -9,13 +9,14 @@
 <body>
   <header class="site-header">
     <div class="brand">
+      <span class="brand-badge"><span class="dot"></span>notegood</span>
       <h1>Licenciatura en Psicología – Udelar</h1>
       <p class="subtitle">Grilla interactiva de avance con previaturas</p>
     </div>
     <nav class="actions">
       <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙 Oscuro</button>
-      <a class="btn" href="malla.html">Ir a la malla</a>
-      <button id="btn-clear" class="btn btn-secondary">Reiniciar progreso</button>
+      <a class="btn btn-primary" href="malla.html">Ir a la malla</a>
+      <button id="btn-clear" class="btn btn-outline">Reiniciar progreso</button>
     </nav>
   </header>
 
@@ -49,6 +50,10 @@
       </div>
     </section>
   </main>
+
+  <p class="muted" style="text-align:center;margin-top:18px">
+    Hecho con 💜 (+ café) por <strong>Notegood</strong>.
+  </p>
 
   <script type="module">
     import { resetState } from './js/app.js';
