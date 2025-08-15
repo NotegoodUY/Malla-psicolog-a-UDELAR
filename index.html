@@ -31,6 +31,10 @@
       <p class="muted">Tip: pasá el mouse por una materia bloqueada para ver qué te falta.</p>
     </section>
 
+    <section class="card" style="margin-top:14px">
+      <div class="muted" id="quote-box">...</div>
+    </section>
+
     <section class="grid-2">
       <div class="card">
         <h3>Qué vas a ver</h3>
@@ -58,7 +62,7 @@
     import { resetState } from './js/app.js';
     import { initTheme, toggleTheme } from './js/theme.js';
 
-    initTheme(); // por defecto: claro
+    initTheme(); // por defecto claro
 
     document.getElementById('btn-clear').addEventListener('click', () => {
       if (confirm('¿Seguro que querés borrar tu progreso guardado en este navegador?')) {
@@ -66,6 +70,7 @@
         alert('Listo. Tu grilla quedó en cero.');
       }
     });
+
     document.getElementById('btn-theme').addEventListener('click', toggleTheme);
   </script>
 </body>
