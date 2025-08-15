@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Malla – Psicología Udelar (Montevideo)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header sticky">
+    <h1>Malla – Psicología Udelar</h1>
+    <nav class="actions">
+      <a class="btn" href="index.html">Volver</a>
+      <button id="btn-export" class="btn">Exportar avance (JSON)</button>
+      <button id="btn-import" class="btn btn-secondary">Importar avance</button>
+      <button id="btn-clear" class="btn btn-danger">Reiniciar</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div id="legend" class="legend"></div>
+    <div id="malla-toolbar" class="toolbar">
+      <label class="switch">
+        <input type="checkbox" id="toggle-cursando" checked />
+        <span>Mostrar “cursando”</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="toggle-bloqueadas" checked />
+        <span>Mostrar bloqueadas</span>
+      </label>
+      <input id="search" class="search" type="search" placeholder="Buscar materia..." />
+    </div>
+
+    <div id="malla-container" class="grid"></div>
+  </main>
+
+  <template id="tpl-chip">
+    <div class="chip"></div>
+  </template>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
