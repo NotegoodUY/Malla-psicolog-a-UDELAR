@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" data-theme="dark">
+<html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -37,14 +37,13 @@
         <ul class="bullets">
           <li>Columnas por semestre (1º a 8º + extras).</li>
           <li>Colores por módulo/área.</li>
-          <li>Buscador, exportar/importar avance y filtros.</li>
+          <li>Buscador, filtros y guardado del avance.</li>
         </ul>
       </div>
       <div class="card">
         <h3>Consejos</h3>
         <ul class="bullets">
           <li>Marcá primero lo del Ciclo Inicial para destrabar el resto.</li>
-          <li>Usá “Exportar avance” antes de cambiar de navegador.</li>
           <li>Si algo no coincide con el plan, avisame y lo ajusto.</li>
         </ul>
       </div>
@@ -59,7 +58,7 @@
     import { resetState } from './js/app.js';
     import { initTheme, toggleTheme } from './js/theme.js';
 
-    initTheme();
+    initTheme(); // por defecto: claro
 
     document.getElementById('btn-clear').addEventListener('click', () => {
       if (confirm('¿Seguro que querés borrar tu progreso guardado en este navegador?')) {
@@ -67,7 +66,6 @@
         alert('Listo. Tu grilla quedó en cero.');
       }
     });
-
     document.getElementById('btn-theme').addEventListener('click', toggleTheme);
   </script>
 </body>
