@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" data-theme="dark">
+<html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,14 +9,13 @@
 <body>
   <header class="site-header sticky">
     <div class="brand">
+      <span class="brand-badge"><span class="dot"></span>notegood</span>
       <h1>Malla – Psicología Udelar</h1>
       <p class="subtitle">Progreso, filtros y previaturas</p>
     </div>
     <nav class="actions">
       <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙 Oscuro</button>
-      <a class="btn" href="index.html">Volver</a>
-      <button id="btn-export" class="btn">Exportar avance (JSON)</button>
-      <button id="btn-import" class="btn btn-secondary">Importar avance</button>
+      <a class="btn btn-primary" href="index.html">Volver</a>
       <button id="btn-clear" class="btn btn-danger">Reiniciar</button>
     </nav>
   </header>
@@ -43,11 +42,17 @@
   </template>
 
   <script type="module">
-    import './js/app.js';
+    import './js/app.js';              // render de la malla
     import { initTheme, toggleTheme } from './js/theme.js';
 
-    initTheme();
+    initTheme();                       // por defecto: claro
     document.getElementById('btn-theme').addEventListener('click', toggleTheme);
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      if (confirm('¿Seguro que querés borrar tu avance?')) {
+        localStorage.removeItem('malla-psico-state-v1');
+        location.reload();
+      }
+    });
   </script>
 </body>
 </html>
