@@ -24,50 +24,44 @@
       <p class="subtitle">Grilla interactiva de avance con previaturas</p>
     </div>
     <nav class="actions">
-      <!-- SOLO EMOJI -->
+      <!-- Toggle SOLO con emoji -->
       <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙</button>
       <a class="btn btn-primary" href="malla.html">Ir a la malla</a>
     </nav>
   </header>
 
   <main class="container narrow">
-    <section class="hero card hero-notegood">
-      <h2>¿Cómo va esto? 🧠</h2>
-      <ul class="friendly">
-        <li>Entrás a la malla y <b>tildás lo que ya rendiste</b> o lo que estás cursando.</li>
-        <li>Si te falta algo, la app te lo dice con las <b>previaturas</b> (sin drama).</li>
-        <li>Todo queda guardado en tu compu. <i>Si cerrás, cuando volvas, sigue ahí.</i></li>
-      </ul>
-      <p class="muted tip">Tip: pasá el mouse por una materia bloqueada para ver qué falta. 😉</p>
+    <section class="hero card hero-notegood center">
+      <h2>¿Cómo funciona? 🧠</h2>
+      <p>Ingresa a la malla y <strong>marca lo que ya cursaste o aprobaste</strong>.</p>
+      <p>Si falta algo, la app te lo indica con las <strong>previaturas</strong> (sin complicaciones).</p>
+      <p>Tu avance se guarda en tu computadora. <em>Si cierras y vuelves, seguirá ahí.</em></p>
+      <p class="muted tip">Tip: coloca el cursor sobre una materia bloqueada para ver qué falta. 😊</p>
     </section>
 
-    <section class="card quote-card">
+    <section class="card quote-card center">
       <div class="quote" id="quote-box">“El éxito es la suma de pequeños esfuerzos repetidos día tras día.” — Robert Collier</div>
     </section>
 
-    <section class="grid-2">
-      <div class="card">
-        <h3>¿Qué vas a ver?</h3>
-        <ul class="bullets">
-          <li>Columnas por semestre (1º a 8º + extras).</li>
-          <li>Colores por área para ubicarte fácil.</li>
-          <li>Buscador y filtros para no marearte.</li>
-        </ul>
+    <section class="grid-2 center">
+      <div class="card soft-pink">
+        <h3>Lo que verás</h3>
+        <p>Semestres ordenados del 1.º al 8.º (y extras).</p>
+        <p>Colores por área para orientarte rápido.</p>
+        <p>Buscador y filtros para encontrar todo fácil.</p>
       </div>
-      <div class="card">
-        <h3>Consejito amigo 💜</h3>
-        <ul class="bullets">
-          <li>Arrancá marcando el <b>Ciclo Inicial</b> para destrabar lo demás.</li>
-          <li>¿Algo no coincide con tu plan? Avisame y lo ajustamos.</li>
-        </ul>
+      <div class="card soft-pink">
+        <h3>Consejo de colega 💜</h3>
+        <p>Comienza marcando el <strong>Ciclo Inicial</strong> para desbloquear el resto.</p>
+        <p>¿Algo no coincide con tu plan? Avísame y lo ajustamos.</p>
       </div>
     </section>
   </main>
 
-  <p class="muted madeby">Hecho con 💜 y muuucho café por <strong>Notegood</strong>.</p>
+  <p class="muted madeby center">Hecho con destellos ✨ y flores 🌸 por <strong>Notegood</strong>.</p>
 
   <script type="module">
-    // → Toggle de tema (solo emojis), por defecto CLARO
+    // Tema: claro por defecto, botón solo emoji
     const KEY = "ng-theme";
     const btn = document.getElementById("btn-theme");
     const saved = localStorage.getItem(KEY) || "light";
@@ -83,11 +77,11 @@
 
     // Frases que rotan
     const QUOTES = [
-      "“La motivación te pone en marcha, el hábito te mantiene.” — Jim Ryun",
-      "“No vemos las cosas como son, las vemos como somos.” — Anaïs Nin",
-      "“Cambiar es difícil al principio, caótico en el medio y precioso al final.” — Robin Sharma",
-      "“Donde tus talentos y las necesidades del mundo se cruzan, ahí está tu vocación.” — Aristóteles",
-      "“Si no puedes volar, corre; si no puedes correr, camina; pero seguí adelante.” — Martin Luther King Jr."
+      "“La motivación te pone en marcha; el hábito te mantiene.” — Jim Ryun",
+      "“No vemos las cosas como son; las vemos como somos.” — Anaïs Nin",
+      "“Cambiar es difícil al inicio, caótico en el medio y valioso al final.” — Robin Sharma",
+      "“Donde tus talentos se cruzan con las necesidades del mundo, ahí está tu vocación.” — Aristóteles",
+      "“Si no puedes volar, corre; si no puedes correr, camina; pero sigue adelante.” — Martin Luther King Jr."
     ];
     const qbox = document.getElementById("quote-box");
     setInterval(()=>{ qbox.textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)] }, 8000);
