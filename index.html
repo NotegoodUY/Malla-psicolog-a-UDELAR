@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Licenciatura en Psicología – Udelar</title>
+  <title>Tu camino en Psicología – Udelar</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -20,7 +20,7 @@
   <header class="site-header">
     <div class="brand">
       <span class="brand-badge"><span class="dot"></span>notegood</span>
-      <h1>Licenciatura en Psicología – Udelar</h1>
+      <h1>Tu camino en Psicología – Udelar</h1>
       <p class="subtitle">Grilla interactiva de avance con previaturas</p>
     </div>
     <nav class="actions">
@@ -35,22 +35,24 @@
       <h2>¿Cómo funciona? 🧠</h2>
       <p>Ingresa a la malla y <strong>marca lo que ya cursaste o aprobaste</strong>.</p>
       <p>Si falta algo, la app te lo indica con las <strong>previaturas</strong> (sin complicaciones).</p>
-      <p>Tu avance se guarda en tu computadora. <em>Si cierras y vuelves, seguirá ahí.</em></p>
+      <p>Tu avance se guarda en tu computadora. <em>Si cierras la página y regresas, tu progreso seguirá guardado.</em></p>
       <p class="muted">Tip: coloca el cursor sobre una materia bloqueada para ver qué falta. 😊</p>
     </section>
 
     <!-- Cita -->
     <section class="card quote-card center">
-      <p class="quote" id="quote-box">“La motivación te pone en marcha; el hábito te mantiene.” — Jim Ryun</p>
+      <p class="quote" id="quote-box">“Paso a paso, llegas más lejos de lo que imaginas.”</p>
     </section>
 
     <!-- Info -->
     <section class="grid-2 stack-lg">
       <article class="card soft-pink center stack-xs">
         <h3>Lo que verás</h3>
-        <p>Semestres ordenados del 1.º al 8.º (y extras).</p>
-        <p>Colores por área para orientarte rápido.</p>
-        <p>Buscador y filtros para encontrar todo fácil.</p>
+        <ul class="icon-list">
+          <li><span class="ico">📌</span> Semestres ordenados del 1.º al 8.º (y extras).</li>
+          <li><span class="ico">🎨</span> Colores por área para orientarte rápido.</li>
+          <li><span class="ico">🔎</span> Buscador y filtros para encontrar todo fácil.</li>
+        </ul>
       </article>
 
       <article class="card soft-pink center stack-xs">
@@ -62,7 +64,7 @@
   </main>
 
   <footer class="footer center">
-    Hecho con amor y muuucho café por <strong>Notegood</strong>.
+    Hecho con amor y mucho cafecito <strong>Notegood</strong>.
   </footer>
 
   <script type="module">
@@ -80,13 +82,13 @@
       btn.textContent = next === "light" ? "🌙" : "☀️";
     });
 
-    // Frases que rotan
+    // Frases motivacionales (solo avance/logro)
     const QUOTES = [
-      "“La motivación te pone en marcha; el hábito te mantiene.” — Jim Ryun",
-      "“No vemos las cosas como son; las vemos como somos.” — Anaïs Nin",
-      "“Cambiar es difícil al inicio, caótico en el medio y valioso al final.” — Robin Sharma",
-      "“Donde tus talentos se cruzan con las necesidades del mundo, ahí está tu vocación.” — Aristóteles",
-      "“Si no puedes volar, corre; si no puedes correr, camina; pero sigue adelante.” — Martin Luther King Jr."
+      "“Paso a paso, llegas más lejos de lo que imaginas.”",
+      "“Lo que hoy marcas como hecho, mañana es impulso.”",
+      "“Pequeños avances constantes construyen grandes logros.”",
+      "“Sigue sumando: cada materia cuenta.”",
+      "“Haz que cada semestre cuente.”"
     ];
     const qbox = document.getElementById("quote-box");
     setInterval(()=>{ qbox.textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)] }, 9000);
