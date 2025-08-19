@@ -21,7 +21,23 @@
   </header>
 
   <main class="container">
+    <div class="quote card" id="quote">
+      <span id="quote-box">...</span>
+    </div>
+
+    <section class="card progress-card">
+      <div class="progress-top">
+        <strong>Tu progreso</strong>
+        <span id="progress-label" class="muted">0/0 (0%)</span>
+      </div>
+      <div class="progress-outer">
+        <div id="progress-bar" class="progress-inner"></div>
+      </div>
+      <div id="progress-msg" class="muted" style="margin-top:6px">Vamos que se puede 💪</div>
+    </section>
+
     <div id="legend" class="legend"></div>
+
     <div id="malla-toolbar" class="toolbar">
       <label class="switch">
         <input type="checkbox" id="toggle-cursando" checked />
@@ -42,10 +58,10 @@
   </template>
 
   <script type="module">
-    import './js/app.js';              // render de la malla
+    import './js/app.js';
     import { initTheme, toggleTheme } from './js/theme.js';
 
-    initTheme();                       // por defecto: claro
+    initTheme(); // por defecto claro
     document.getElementById('btn-theme').addEventListener('click', toggleTheme);
     document.getElementById('btn-clear').addEventListener('click', () => {
       if (confirm('¿Seguro que querés borrar tu avance?')) {
