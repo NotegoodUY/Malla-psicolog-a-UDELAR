@@ -3,10 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Malla – Licenciatura en Psicología (Udelar)</title>
+  <title>Licenciatura en Psicología – Udelar</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <!-- Fondo con destellos y flores -->
+  <div class="bg-decor" aria-hidden="true">
+    <span class="sparkle s1"></span>
+    <span class="sparkle s2"></span>
+    <span class="sparkle s3"></span>
+    <span class="petal p1"></span>
+    <span class="petal p2"></span>
+    <span class="petal p3"></span>
+  </div>
+
   <header class="site-header">
     <div class="brand">
       <span class="brand-badge"><span class="dot"></span>notegood</span>
@@ -14,64 +24,16 @@
       <p class="subtitle">Grilla interactiva de avance con previaturas</p>
     </div>
     <nav class="actions">
-      <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙 Oscuro</button>
+      <!-- SOLO EMOJI -->
+      <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙</button>
       <a class="btn btn-primary" href="malla.html">Ir a la malla</a>
-      <button id="btn-clear" class="btn btn-outline">Reiniciar progreso</button>
     </nav>
   </header>
 
   <main class="container narrow">
-    <section class="hero card">
-      <h2>¿Cómo funciona?</h2>
-      <ol class="list">
-        <li>Entrá a la malla y marcá las materias <strong>aprobadas</strong> o <strong>cursando</strong>.</li>
-        <li>Las <strong>previaturas</strong> bloquean/desbloquean materias automáticamente.</li>
-        <li>Tu avance se guarda en este navegador (<code>localStorage</code>).</li>
-      </ol>
-      <p class="muted">Tip: pasá el mouse por una materia bloqueada para ver qué te falta.</p>
-    </section>
-
-    <section class="card" style="margin-top:14px">
-      <div class="muted" id="quote-box">...</div>
-    </section>
-
-    <section class="grid-2">
-      <div class="card">
-        <h3>Qué vas a ver</h3>
-        <ul class="bullets">
-          <li>Columnas por semestre (1º a 8º + extras).</li>
-          <li>Colores por módulo/área.</li>
-          <li>Buscador, filtros y guardado del avance.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Consejos</h3>
-        <ul class="bullets">
-          <li>Marcá primero lo del Ciclo Inicial para destrabar el resto.</li>
-          <li>Si algo no coincide con el plan, avisame y lo ajusto.</li>
-        </ul>
-      </div>
-    </section>
-  </main>
-
-  <p class="muted" style="text-align:center;margin-top:18px">
-    Hecho con 💜 (+ café) por <strong>Notegood</strong>.
-  </p>
-
-  <script type="module">
-    import { resetState } from './js/app.js';
-    import { initTheme, toggleTheme } from './js/theme.js';
-
-    initTheme(); // por defecto claro
-
-    document.getElementById('btn-clear').addEventListener('click', () => {
-      if (confirm('¿Seguro que querés borrar tu progreso guardado en este navegador?')) {
-        resetState();
-        alert('Listo. Tu grilla quedó en cero.');
-      }
-    });
-
-    document.getElementById('btn-theme').addEventListener('click', toggleTheme);
-  </script>
-</body>
-</html>
+    <section class="hero card hero-notegood">
+      <h2>¿Cómo va esto? 🧠</h2>
+      <ul class="friendly">
+        <li>Entrás a la malla y <b>tildás lo que ya rendiste</b> o lo que estás cursando.</li>
+        <li>Si te falta algo, la app te lo dice con las <b>previaturas</b> (sin drama).</li>
+        <li>Todo
