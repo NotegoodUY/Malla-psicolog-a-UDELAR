@@ -1,30 +1,32 @@
-/* ===== TOKENS (claro por defecto) ===== */
+/* ===== TOKENS ===== */
 :root{
-  /* Marca */
   --brand:#7c3aed;
   --brand-2:#ec4899;
 
-  /* Colores */
-  --bg:#ffffff;              /* base blanco para alto contraste */
-  --bg-grad-1:#ffffff;       /* para gradiente dinámico tenue */
-  --bg-grad-2:#faf5ff;       /* lila MUY suave */
-  --bg-grad-3:#fff8e6;       /* dorado MUY suave */
+  --bg:#ffffff;
+  --bg-grad-1:#ffffff;   /* blanco */
+  --bg-grad-2:#faf5ff;   /* lila muy suave */
+  --bg-grad-3:#fff8e6;   /* dorado muy suave */
+
   --card:#ffffff; 
   --text:#0f172a; 
   --muted:#5b6473; 
   --border:#ead9ef;
 
-  /* Botones */
   --btn:#111827; 
   --btn-fg:#ffffff; 
   --btn-ghost:#ffffff; 
   --btn-ghost-fg:#111827;
 
-  /* Spacing (8pt) */
   --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px;
   --s-6:24px; --s-7:28px; --s-8:32px; --s-10:40px; --s-12:48px;
 
   --ring: 0 0 0 3px color-mix(in oklab, var(--brand-2) 35%, transparent);
+
+  /* scroll vars */
+  --scrollY: 0;
+  --parallax-strong: 0px; /* capa de gradientes */
+  --parallax-soft: 0px;   /* decoraciones */
 }
 
 /* Tema oscuro */
@@ -41,17 +43,30 @@ html,body{
   margin:0; padding:0; color:var(--text);
   font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-  background: linear-gradient(180deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));
-  background-size: 400% 400%;
-  animation: bg-move 22s ease infinite;
+  background: var(--bg);
 }
-@keyframes bg-move{0%{background-position:0% 0%}50%{background-position:100% 50%}100%{background-position:0% 0%}}
+
+/* Capa de gradientes reactiva al scroll (parallax) */
+body::before{
+  content:""; position:fixed; inset:-12% -12% -12% -12%; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(1200px 420px at 12% 0%, color-mix(in oklab, var(--brand-2) 12%, transparent), transparent),
+    radial-gradient(1200px 420px at 88% 8%, color-mix(in oklab, var(--brand) 12%, transparent), transparent),
+    linear-gradient(180deg, var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3));
+  background-repeat:no-repeat;
+  filter: saturate(1.02);
+  transform: translateY(var(--parallax-strong));
+  will-change: transform;
+  transition: filter .2s ease;
+}
 p{line-height:1.55; margin:0}
 h1,h2,h3{margin:0; line-height:1.25}
 .center{text-align:center}
 
-/* ===== DECORACIÓN (sútil) ===== */
-.bg-decor{position:fixed; inset:0; pointer-events:none; z-index:-1}
+/* ===== DECORACIÓN (con parallax) ===== */
+.bg-decor{position:fixed; inset:0; pointer-events:none; z-index:-1;
+  transform: translateY(var(--parallax-soft)); will-change: transform;
+}
 .sparkle,.petal{position:absolute; filter:blur(.2px); opacity:.65}
 .sparkle{
   width:12px;height:12px;border-radius:50%;
@@ -106,7 +121,7 @@ h1,h2,h3{margin:0; line-height:1.25}
 /* ===== CARDS ===== */
 .card{
   background:var(--card); border:1px solid var(--border); border-radius:18px;
-  padding:18px 20px;                        /* ↓ menos aire interno (pedido) */
+  padding:18px 20px;
   box-shadow:0 18px 50px rgba(246, 44, 125, .07);
 }
 .hero-notegood{
@@ -154,6 +169,25 @@ h1,h2,h3{margin:0; line-height:1.25}
 
 /* ===== FOOTER ===== */
 .footer{max-width:900px; margin:var(--s-12) auto var(--s-10); padding:0 var(--s-4); color:var(--muted)}
+
+/* ===== Bullets con íconos ===== */
+.icon-list{
+  list-style: none;
+  padding: 0;
+  margin: var(--s-4) auto 0;
+  max-width: 520px;
+  text-align: left;
+}
+.icon-list li{
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  align-items: start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dashed color-mix(in oklab, var(--brand-2) 25%, var(--border));
+}
+.icon-list li:last-child{ border-bottom: 0 }
+.icon-list .ico{ font-size: 18px; line-height: 1 }
 
 /* ===== (Estilos compartidos con malla; puedes dejarlos) ===== */
 .legend{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px}
