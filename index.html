@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <!-- Decoración sutil (también con parallax) -->
+  <!-- Decoración sutil (parallax suave) -->
   <div class="bg-decor" aria-hidden="true">
     <span class="sparkle s1"></span>
     <span class="sparkle s2"></span>
@@ -24,20 +24,25 @@
       <p class="subtitle">Grilla interactiva de avance con previaturas</p>
     </div>
     <nav class="actions">
-      <!-- Toggle solo emoji -->
       <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙</button>
       <a class="btn btn-malla" href="malla.html">Ir a la malla</a>
     </nav>
   </header>
 
   <main class="container narrow stack-xl">
-    <!-- Hero -->
-    <section class="card hero-notegood stack-sm center">
-      <h2>¿Cómo funciona? 🧠</h2>
+    <!-- HERO SPOTLIGHT -->
+    <section class="card hero-spotlight stack-sm center">
+      <p class="overline">Empieza aquí</p>
+      <h2>¿Cómo funciona? <span aria-hidden="true">🧠</span></h2>
+
       <p>Ingresa a la malla y <strong>marca lo que ya cursaste o aprobaste</strong>.</p>
       <p>Si falta algo, la app te lo indica con las <strong>previaturas</strong> (sin complicaciones).</p>
       <p>Tu avance se guarda en tu computadora. <em>Si cierras la página y regresas, tu progreso seguirá guardado.</em></p>
       <p class="muted">Tip: coloca el cursor sobre una materia bloqueada para ver qué falta. 😊</p>
+
+      <div class="hero-cta">
+        <a class="btn btn-hero" href="malla.html">Ir a la malla</a>
+      </div>
     </section>
 
     <!-- Frase motivacional (solo avance/logro) -->
@@ -57,7 +62,7 @@
       </article>
 
       <article class="card soft-pink center stack-xs">
-        <h3>Consejo de amis 💜</h3>
+        <h3>Consejo de colega 💜</h3>
         <p>Comienza marcando el <strong>Ciclo Inicial</strong> para desbloquear el resto.</p>
         <p>¿Algo no coincide con tu plan? Avísame y lo ajustamos.</p>
       </article>
@@ -65,11 +70,11 @@
   </main>
 
   <footer class="footer center">
-    Hecho por <strong>Notegood</strong>.
+    Hecho con destellos ✨ y flores 🌸 por <strong>Notegood</strong>.
   </footer>
 
   <script type="module">
-    // ====== Tema claro/oscuro (emoji) ======
+    // ===== Tema claro/oscuro (emoji) =====
     const KEY = "ng-theme";
     const btn = document.getElementById("btn-theme");
     const saved = localStorage.getItem(KEY) || "light";
@@ -83,18 +88,17 @@
       btn.textContent = next === "light" ? "🌙" : "☀️";
     });
 
-    // ====== Parallax en scroll (suave y fluido) ======
+    // ===== Parallax en scroll (suave) =====
     const root = document.documentElement;
     const onScroll = () => {
       const y = window.scrollY || window.pageYOffset;
-      root.style.setProperty('--scrollY', y.toString());
       root.style.setProperty('--parallax-strong', (y * -0.08) + 'px'); // capa de gradientes
       root.style.setProperty('--parallax-soft',   (y * -0.04) + 'px'); // decoraciones
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // ====== Frases motivacionales (avance/logro) ======
+    // ===== Frases motivacionales (avance/logro) =====
     const QUOTES = [
       "“Paso a paso, llegas más lejos de lo que imaginas.”",
       "“Pequeños avances constantes construyen grandes logros.”",
@@ -103,9 +107,7 @@
       "“Haz que cada semestre cuente.”"
     ];
     const qbox = document.getElementById("quote-box");
-    setInterval(() => {
-      qbox.textContent = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-    }, 9000);
+    setInterval(()=>{ qbox.textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)] }, 9000);
   </script>
 </body>
 </html>
