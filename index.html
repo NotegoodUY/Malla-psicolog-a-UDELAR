@@ -24,6 +24,7 @@
       <p class="subtitle">Grilla interactiva de avance con previaturas</p>
     </div>
     <nav class="actions">
+      <!-- Toggle solo emoji -->
       <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙</button>
       <a class="btn btn-malla" href="malla.html">Ir a la malla</a>
     </nav>
@@ -39,7 +40,7 @@
       <p class="muted">Tip: coloca el cursor sobre una materia bloqueada para ver qué falta. 😊</p>
     </section>
 
-    <!-- Frase motivacional (avance/logro) -->
+    <!-- Frase motivacional (solo avance/logro) -->
     <section class="card quote-card center">
       <p class="quote" id="quote-box">“Paso a paso, llegas más lejos de lo que imaginas.”</p>
     </section>
@@ -56,7 +57,7 @@
       </article>
 
       <article class="card soft-pink center stack-xs">
-        <h3>Consejo de colega 💜</h3>
+        <h3>Consejo de amis 💜</h3>
         <p>Comienza marcando el <strong>Ciclo Inicial</strong> para desbloquear el resto.</p>
         <p>¿Algo no coincide con tu plan? Avísame y lo ajustamos.</p>
       </article>
@@ -64,7 +65,7 @@
   </main>
 
   <footer class="footer center">
-    Hecho con destellos ✨ y flores 🌸 por <strong>Notegood</strong>.
+    Hecho por <strong>Notegood</strong>.
   </footer>
 
   <script type="module">
@@ -82,10 +83,9 @@
       btn.textContent = next === "light" ? "🌙" : "☀️";
     });
 
-    // ====== Parallax en scroll (fluido) ======
+    // ====== Parallax en scroll (suave y fluido) ======
     const root = document.documentElement;
     const onScroll = () => {
-      // Valores pequeños para movimiento sutil
       const y = window.scrollY || window.pageYOffset;
       root.style.setProperty('--scrollY', y.toString());
       root.style.setProperty('--parallax-strong', (y * -0.08) + 'px'); // capa de gradientes
@@ -94,7 +94,7 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // Frases motivacionales (solo avance/logro)
+    // ====== Frases motivacionales (avance/logro) ======
     const QUOTES = [
       "“Paso a paso, llegas más lejos de lo que imaginas.”",
       "“Pequeños avances constantes construyen grandes logros.”",
@@ -103,7 +103,9 @@
       "“Haz que cada semestre cuente.”"
     ];
     const qbox = document.getElementById("quote-box");
-    setInterval(()=>{ qbox.textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)] }, 9000);
+    setInterval(() => {
+      qbox.textContent = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+    }, 9000);
   </script>
 </body>
 </html>
