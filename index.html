@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <!-- Decoración sutil -->
+  <!-- Decoración sutil (también con parallax) -->
   <div class="bg-decor" aria-hidden="true">
     <span class="sparkle s1"></span>
     <span class="sparkle s2"></span>
@@ -39,7 +39,7 @@
       <p class="muted">Tip: coloca el cursor sobre una materia bloqueada para ver qué falta. 😊</p>
     </section>
 
-    <!-- Cita -->
+    <!-- Frase motivacional (avance/logro) -->
     <section class="card quote-card center">
       <p class="quote" id="quote-box">“Paso a paso, llegas más lejos de lo que imaginas.”</p>
     </section>
@@ -64,11 +64,11 @@
   </main>
 
   <footer class="footer center">
-    Hecho con amor y mucho cafecito <strong>Notegood</strong>.
+    Hecho con destellos ✨ y flores 🌸 por <strong>Notegood</strong>.
   </footer>
 
   <script type="module">
-    // Tema: claro por defecto, botón solo emoji
+    // ====== Tema claro/oscuro (emoji) ======
     const KEY = "ng-theme";
     const btn = document.getElementById("btn-theme");
     const saved = localStorage.getItem(KEY) || "light";
@@ -82,11 +82,23 @@
       btn.textContent = next === "light" ? "🌙" : "☀️";
     });
 
+    // ====== Parallax en scroll (fluido) ======
+    const root = document.documentElement;
+    const onScroll = () => {
+      // Valores pequeños para movimiento sutil
+      const y = window.scrollY || window.pageYOffset;
+      root.style.setProperty('--scrollY', y.toString());
+      root.style.setProperty('--parallax-strong', (y * -0.08) + 'px'); // capa de gradientes
+      root.style.setProperty('--parallax-soft',   (y * -0.04) + 'px'); // decoraciones
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
     // Frases motivacionales (solo avance/logro)
     const QUOTES = [
       "“Paso a paso, llegas más lejos de lo que imaginas.”",
-      "“Lo que hoy marcas como hecho, mañana es impulso.”",
       "“Pequeños avances constantes construyen grandes logros.”",
+      "“Lo que hoy marcas como hecho, mañana es impulso.”",
       "“Sigue sumando: cada materia cuenta.”",
       "“Haz que cada semestre cuente.”"
     ];
