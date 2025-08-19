@@ -1,18 +1,14 @@
-/* THEME VARIABLES */
+/* THEME VARIABLES (claro por defecto) */
 :root{
   --brand:#7c3aed;        /* violeta Notegood */
   --brand-2:#ec4899;      /* rosa Notegood */
-  --bg:#f6f7fb; --card:#ffffff; --text:#0f172a; --muted:#475569;
-  --ok:#178f4f; --warn:#b78300; --danger:#b42318; --border:#e5e7eb;
-  --btn:#111827; --btn-fg:#ffffff;
-  --btn-ghost:#ffffff; --btn-ghost-fg:#111827;
-  --ring: 0 0 0 3px color-mix(in oklab, var(--brand) 25%, transparent);
+  --bg:#f9f6fb; --card:#ffffff; --text:#0f172a; --muted:#475569;
+  --border:#ead9ef; --btn:#111827; --btn-fg:#ffffff; --btn-ghost:#ffffff; --btn-ghost-fg:#111827;
+  --ring: 0 0 0 3px color-mix(in oklab, var(--brand-2) 35%, transparent);
 }
 :root[data-theme="dark"]{
   --bg:#0f1115; --card:#151823; --text:#e8ecf1; --muted:#9aa4b2;
-  --ok:#2ecc71; --warn:#f1c40f; --danger:#e74c3c; --border:#222635;
-  --btn:#1f2433; --btn-fg:#e8ecf1;
-  --btn-ghost:#121622; --btn-ghost-fg:#e8ecf1;
+  --border:#2a2f3d; --btn:#1f2433; --btn-fg:#e8ecf1; --btn-ghost:#121622; --btn-ghost-fg:#e8ecf1;
   --ring: 0 0 0 3px color-mix(in oklab, var(--brand) 35%, transparent);
 }
 
@@ -20,28 +16,28 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
 a{color:#8ab4ff;text-decoration:none}
-code{background:rgba(127,127,127,.12);border-radius:6px;padding:1px 6px}
+.center{text-align:center}
 
 /* BG decor (destellos + flores) */
 .bg-decor{position:fixed;inset:0;pointer-events:none;z-index:-1}
-.sparkle,.petal{position:absolute;filter:blur(.2px);opacity:.7}
+.sparkle,.petal{position:absolute;filter:blur(.2px);opacity:.75}
 .sparkle{width:14px;height:14px;border-radius:50%;
   background: radial-gradient(circle, #fff 0 35%, transparent 36%);
-  box-shadow:0 0 16px color-mix(in oklab, var(--brand) 60%, #fff);
+  box-shadow:0 0 16px color-mix(in oklab, var(--brand-2) 60%, #fff);
   animation: float 6s ease-in-out infinite;
 }
 .s1{top:10%;left:6%}.s2{top:30%;right:12%}.s3{bottom:18%;left:20%}
 .petal{width:18px;height:18px;background:
   radial-gradient(circle at 60% 60%, #ffd1e8 0 40%, transparent 41%),
   radial-gradient(circle at 40% 40%, #ffc0df 0 40%, transparent 41%);
-  transform:rotate(25deg);border-radius:50%;opacity:.8;
+  transform:rotate(25deg);border-radius:50%;opacity:.9;
   animation: float 8s ease-in-out infinite reverse;
 }
 .p1{top:16%;right:22%}.p2{bottom:14%;right:8%}.p3{top:65%;left:10%}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
 /* HEADER */
-.site-header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:18px 20px;background:transparent;border-bottom:1px solid var(--border)}
+.site-header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border)}
 .brand h1{margin:0;font-size:clamp(22px,2.3vw,36px)}
 .subtitle{margin:4px 0 0;color:var(--muted);font-weight:500}
 .brand-badge{display:inline-flex;align-items:center;gap:8px;padding:4px 10px;border-radius:999px;font-weight:700;font-size:12px;
@@ -55,25 +51,31 @@ code{background:rgba(127,127,127,.12);border-radius:6px;padding:1px 6px}
 /* LAYOUT + CARDS */
 .container{max-width:1100px;margin:24px auto;padding:0 16px}
 .container.narrow{max-width:900px}
-.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:16px}
 
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px 20px;box-shadow:0 10px 30px rgba(0,0,0,.05)}
-.hero-notegood{background:
-  radial-gradient(1200px 300px at 10% -10%, color-mix(in oklab, var(--brand) 10%, transparent), transparent),
-  radial-gradient(1000px 260px at 110% 0%, color-mix(in oklab, var(--brand-2) 12%, transparent), transparent),
-  var(--card);
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px 22px;box-shadow:0 14px 40px rgba(250, 128, 170, .12)}
+.hero-notegood{
+  background:
+    radial-gradient(1200px 300px at 10% -10%, color-mix(in oklab, var(--brand-2) 15%, transparent), transparent),
+    radial-gradient(1000px 260px at 110% 0%, color-mix(in oklab, var(--brand) 14%, transparent), transparent),
+    var(--card);
 }
-.quote-card{background:
-  radial-gradient(800px 200px at -10% 10%, color-mix(in oklab, var(--brand-2) 10%, transparent), transparent),
-  var(--card);
+.quote-card{
+  background:
+    radial-gradient(800px 200px at -10% 10%, color-mix(in oklab, var(--brand-2) 14%, transparent), transparent),
+    var(--card);
 }
-.quote{font-style:italic}
+.soft-pink{
+  background:
+    radial-gradient(600px 200px at 50% -30%, color-mix(in oklab, var(--brand-2) 12%, transparent), transparent),
+    var(--card);
+}
 
-/* Friendly list */
-.friendly{margin:8px 0 0 0;padding-left:18px}
-.friendly li{margin:6px 0}
+/* TEXT */
+h2,h3{margin:0 0 8px}
+.muted{color:var(--muted)}
+.tip{margin-top:10px}
 
-/* BUTTONS */
+/* BUTTONS (emoji toggle + CTA rosa) */
 .actions{display:flex;gap:10px;flex-wrap:wrap}
 .btn{background:var(--btn);color:var(--btn-fg);border:1px solid var(--border);padding:9px 14px;border-radius:12px;cursor:pointer;font-weight:600}
 .btn:hover{filter:brightness(1.05)}
@@ -81,12 +83,7 @@ code{background:rgba(127,127,127,.12);border-radius:6px;padding:1px 6px}
 .btn-ghost{background:var(--btn-ghost);color:var(--btn-ghost-fg);border:1px solid var(--border)}
 .btn-primary{background:linear-gradient(135deg, var(--brand), var(--brand-2));color:#fff;border:none}
 
-/* TEXT HELPERS */
-.bullets{margin:6px 0 0 18px}
-.muted{color:var(--muted)}
-.madeby{text-align:center;margin:18px 0}
-
-/* ====== ABAJO: estilos de la malla (igual que antes) ====== */
+/* (Estilos que también usa la malla; puedes dejarlos) */
 .legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .legend .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:color-mix(in oklab, var(--card) 70%, #0000);border:1px solid var(--border);font-size:13px}
 .legend .swatch{width:12px;height:12px;border-radius:3px;border:1px solid var(--border)}
@@ -113,12 +110,3 @@ code{background:rgba(127,127,127,.12);border-radius:6px;padding:1px 6px}
 .dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--border);display:inline-block}
 .tooltip{position:absolute;inset:auto 8px 8px auto;background:color-mix(in oklab, var(--bg) 92%, #fff0);border:1px solid var(--border);border-radius:10px;padding:8px 10px;color:color-mix(in oklab, var(--text) 85%, #fff0);font-size:12px;max-width:360px;display:none}
 .card-materia:hover .tooltip{display:block}
-/* toasts/progreso/confetti (si usás en malla) */
-.toast{position:fixed;left:50%;top:20px;transform:translateX(-50%) translateY(-10px);background:linear-gradient(135deg, var(--brand), var(--brand-2));color:#fff;padding:10px 14px;border-radius:12px;opacity:0;transition:.2s ease;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:9999}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.progress-card{margin-bottom:14px}
-.progress-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.progress-outer{width:100%;height:12px;border-radius:999px;background:color-mix(in oklab, var(--bg) 85%, #fff0);border:1px solid var(--border);overflow:hidden}
-.progress-inner{height:100%;width:0;background:linear-gradient(90deg, var(--brand), var(--brand-2))}
-.confetti{position:absolute;width:8px;height:10px;border-radius:2px;pointer-events:none;animation: confetti-fall 1.1s ease-out forwards}
-@keyframes confetti-fall{0%{opacity:1; transform: translate(0,0) rotate(0)}100%{opacity:0; transform: translate(calc(var(--vx)*60px), calc((var(--vy) + 4)*70px)) rotate(260deg)}}
