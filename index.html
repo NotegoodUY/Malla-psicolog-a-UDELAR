@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <!-- Fondo con destellos y flores -->
+  <!-- Decoración sutil -->
   <div class="bg-decor" aria-hidden="true">
     <span class="sparkle s1"></span>
     <span class="sparkle s2"></span>
@@ -24,67 +24,35 @@
       <p class="subtitle">Grilla interactiva de avance con previaturas</p>
     </div>
     <nav class="actions">
-      <!-- Toggle SOLO con emoji -->
       <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙</button>
       <a class="btn btn-primary" href="malla.html">Ir a la malla</a>
     </nav>
   </header>
 
-  <main class="container narrow">
-    <section class="hero card hero-notegood center">
+  <main class="container narrow stack-xl">
+    <!-- Hero explicativo -->
+    <section class="card hero-notegood stack-md center">
       <h2>¿Cómo funciona? 🧠</h2>
       <p>Ingresa a la malla y <strong>marca lo que ya cursaste o aprobaste</strong>.</p>
       <p>Si falta algo, la app te lo indica con las <strong>previaturas</strong> (sin complicaciones).</p>
       <p>Tu avance se guarda en tu computadora. <em>Si cierras y vuelves, seguirá ahí.</em></p>
-      <p class="muted tip">Tip: coloca el cursor sobre una materia bloqueada para ver qué falta. 😊</p>
+      <p class="muted">Tip: coloca el cursor sobre una materia bloqueada para ver qué falta. 😊</p>
     </section>
 
+    <!-- Cita -->
     <section class="card quote-card center">
-      <div class="quote" id="quote-box">“El éxito es la suma de pequeños esfuerzos repetidos día tras día.” — Robert Collier</div>
+      <p class="quote" id="quote-box">“El éxito es la suma de pequeños esfuerzos repetidos día tras día.” — Robert Collier</p>
     </section>
 
-    <section class="grid-2 center">
-      <div class="card soft-pink">
+    <!-- Info en dos columnas (con buen aire) -->
+    <section class="grid-2 stack-lg">
+      <article class="card soft-pink center stack-sm">
         <h3>Lo que verás</h3>
         <p>Semestres ordenados del 1.º al 8.º (y extras).</p>
         <p>Colores por área para orientarte rápido.</p>
         <p>Buscador y filtros para encontrar todo fácil.</p>
-      </div>
-      <div class="card soft-pink">
-        <h3>Consejo de colega 💜</h3>
-        <p>Comienza marcando el <strong>Ciclo Inicial</strong> para desbloquear el resto.</p>
-        <p>¿Algo no coincide con tu plan? Avísame y lo ajustamos.</p>
-      </div>
-    </section>
-  </main>
+      </article>
 
-  <p class="muted madeby center">Hecho con destellos ✨ y flores 🌸 por <strong>Notegood</strong>.</p>
-
-  <script type="module">
-    // Tema: claro por defecto, botón solo emoji
-    const KEY = "ng-theme";
-    const btn = document.getElementById("btn-theme");
-    const saved = localStorage.getItem(KEY) || "light";
-    document.documentElement.setAttribute("data-theme", saved);
-    btn.textContent = saved === "light" ? "🌙" : "☀️";
-    btn.addEventListener("click", () => {
-      const current = document.documentElement.getAttribute("data-theme") || "light";
-      const next = current === "light" ? "dark" : "light";
-      document.documentElement.setAttribute("data-theme", next);
-      localStorage.setItem(KEY, next);
-      btn.textContent = next === "light" ? "🌙" : "☀️";
-    });
-
-    // Frases que rotan
-    const QUOTES = [
-      "“La motivación te pone en marcha; el hábito te mantiene.” — Jim Ryun",
-      "“No vemos las cosas como son; las vemos como somos.” — Anaïs Nin",
-      "“Cambiar es difícil al inicio, caótico en el medio y valioso al final.” — Robin Sharma",
-      "“Donde tus talentos se cruzan con las necesidades del mundo, ahí está tu vocación.” — Aristóteles",
-      "“Si no puedes volar, corre; si no puedes correr, camina; pero sigue adelante.” — Martin Luther King Jr."
-    ];
-    const qbox = document.getElementById("quote-box");
-    setInterval(()=>{ qbox.textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)] }, 8000);
-  </script>
-</body>
-</html>
+      <article class="card soft-pink center stack-sm">
+        <h3>Consejo de ami 💜</h3>
+        <p>Comienza marcando el <strong>Ciclo Inicial</strong> para desbloquear el
