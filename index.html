@@ -36,4 +36,61 @@
       <ul class="friendly">
         <li>Entrás a la malla y <b>tildás lo que ya rendiste</b> o lo que estás cursando.</li>
         <li>Si te falta algo, la app te lo dice con las <b>previaturas</b> (sin drama).</li>
-        <li>Todo
+        <li>Todo queda guardado en tu compu. <i>Si cerrás, cuando volvas, sigue ahí.</i></li>
+      </ul>
+      <p class="muted tip">Tip: pasá el mouse por una materia bloqueada para ver qué falta. 😉</p>
+    </section>
+
+    <section class="card quote-card">
+      <div class="quote" id="quote-box">“El éxito es la suma de pequeños esfuerzos repetidos día tras día.” — Robert Collier</div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <h3>¿Qué vas a ver?</h3>
+        <ul class="bullets">
+          <li>Columnas por semestre (1º a 8º + extras).</li>
+          <li>Colores por área para ubicarte fácil.</li>
+          <li>Buscador y filtros para no marearte.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Consejito amigo 💜</h3>
+        <ul class="bullets">
+          <li>Arrancá marcando el <b>Ciclo Inicial</b> para destrabar lo demás.</li>
+          <li>¿Algo no coincide con tu plan? Avisame y lo ajustamos.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <p class="muted madeby">Hecho con destellos ✨ y flores 🌸 por <strong>Notegood</strong>.</p>
+
+  <script type="module">
+    // → Toggle de tema (solo emojis), por defecto CLARO
+    const KEY = "ng-theme";
+    const btn = document.getElementById("btn-theme");
+    const saved = localStorage.getItem(KEY) || "light";
+    document.documentElement.setAttribute("data-theme", saved);
+    btn.textContent = saved === "light" ? "🌙" : "☀️";
+    btn.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const next = current === "light" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem(KEY, next);
+      btn.textContent = next === "light" ? "🌙" : "☀️";
+    });
+
+    // Frases que rotan
+    const QUOTES = [
+      "“La motivación te pone en marcha, el hábito te mantiene.” — Jim Ryun",
+      "“No vemos las cosas como son, las vemos como somos.” — Anaïs Nin",
+      "“Cambiar es difícil al principio, caótico en el medio y precioso al final.” — Robin Sharma",
+      "“Donde tus talentos y las necesidades del mundo se cruzan, ahí está tu vocación.” — Aristóteles",
+      "“Si no puedes volar, corre; si no puedes correr, camina; pero seguí adelante.” — Martin Luther King Jr."
+    ];
+    const qbox = document.getElementById("quote-box");
+    setInterval(()=>{ qbox.textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)] }, 8000);
+  </script>
+</body>
+</html>
