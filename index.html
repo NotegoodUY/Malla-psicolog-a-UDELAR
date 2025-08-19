@@ -54,5 +54,42 @@
       </article>
 
       <article class="card soft-pink center stack-sm">
-        <h3>Consejo de ami 💜</h3>
-        <p>Comienza marcando el <strong>Ciclo Inicial</strong> para desbloquear el
+        <h3>Consejo de colega 💜</h3>
+        <p>Comienza marcando el <strong>Ciclo Inicial</strong> para desbloquear el resto.</p>
+        <p>¿Algo no coincide con tu plan? Avísame y lo ajustamos.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer center">
+    Hecho con destellos ✨ y flores 🌸 por <strong>Notegood</strong>.
+  </footer>
+
+  <script type="module">
+    // Tema: claro por defecto, botón solo emoji
+    const KEY = "ng-theme";
+    const btn = document.getElementById("btn-theme");
+    const saved = localStorage.getItem(KEY) || "light";
+    document.documentElement.setAttribute("data-theme", saved);
+    btn.textContent = saved === "light" ? "🌙" : "☀️";
+    btn.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const next = current === "light" ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem(KEY, next);
+      btn.textContent = next === "light" ? "🌙" : "☀️";
+    });
+
+    // Frases que rotan
+    const QUOTES = [
+      "“La motivación te pone en marcha; el hábito te mantiene.” — Jim Ryun",
+      "“No vemos las cosas como son; las vemos como somos.” — Anaïs Nin",
+      "“Cambiar es difícil al inicio, caótico en el medio y valioso al final.” — Robin Sharma",
+      "“Donde tus talentos se cruzan con las necesidades del mundo, ahí está tu vocación.” — Aristóteles",
+      "“Si no puedes volar, corre; si no puedes correr, camina; pero sigue adelante.” — Martin Luther King Jr."
+    ];
+    const qbox = document.getElementById("quote-box");
+    setInterval(()=>{ qbox.textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)] }, 9000);
+  </script>
+</body>
+</html>
