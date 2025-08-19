@@ -1,9 +1,9 @@
-// Tiny theme switcher (persists in localStorage)
+// Switcher de tema con persistencia (por defecto: CLARO)
 const THEME_KEY = "ng-theme";
 
 export function initTheme() {
   const saved = localStorage.getItem(THEME_KEY);
-  const theme = saved || "light"; // por defecto: claro
+  const theme = saved || "light";
   applyTheme(theme);
 }
 
