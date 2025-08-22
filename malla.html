@@ -1,3 +1,4 @@
+<!-- malla.html -->
 <!doctype html>
 <html lang="es">
 <head>
@@ -56,11 +57,17 @@
     </div>
 
     <!-- Grilla -->
-    <div class="grid" id="grid">
-      <!-- Se llena desde app.js -->
-    </div>
+    <div class="grid" id="grid"></div>
   </main>
 
-  <script src="js/app.js" type="module"></script>
+  <script type="module">
+    import { initTheme, attachThemeToggle, initParallax } from "./js/theme.js";
+    import { initMalla } from "./js/app.js";
+
+    initTheme();
+    attachThemeToggle("btn-theme");
+    initParallax();
+    initMalla(); // carga JSON, renderiza columnas, aplica previaturas
+  </script>
 </body>
 </html>
