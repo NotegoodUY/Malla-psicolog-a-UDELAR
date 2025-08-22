@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!doctype html>
 <html lang="es">
 <head>
@@ -7,7 +8,7 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <!-- Decoración sutil (parallax) -->
+  <!-- Decoración (parallax) -->
   <div class="bg-decor" aria-hidden="true">
     <span class="sparkle s1"></span>
     <span class="sparkle s2"></span>
@@ -75,31 +76,13 @@
     Hecho con destellos ✨ y flores 🌸 por <strong>Notegood</strong>.
   </footer>
 
+  <!-- Inicialización de tema + parallax + frases -->
   <script type="module">
-    // Tema claro/oscuro
-    const KEY = "ng-theme";
-    const btn = document.getElementById("btn-theme");
-    const saved = localStorage.getItem(KEY) || "light";
-    document.documentElement.setAttribute("data-theme", saved);
-    btn.textContent = saved === "light" ? "🌙" : "☀️";
-    btn.addEventListener("click", () => {
-      const next = (document.documentElement.getAttribute("data-theme") || "light") === "light" ? "dark" : "light";
-      document.documentElement.setAttribute("data-theme", next);
-      localStorage.setItem(KEY, next);
-      btn.textContent = next === "light" ? "🌙" : "☀️";
-    });
+    import { initTheme, attachThemeToggle, initParallax } from "./js/theme.js";
+    initTheme();
+    attachThemeToggle("btn-theme");
+    initParallax();
 
-    // Parallax suave
-    const root = document.documentElement;
-    const onScroll = () => {
-      const y = window.scrollY || window.pageYOffset;
-      root.style.setProperty('--parallax-strong', (y * -0.08) + 'px');
-      root.style.setProperty('--parallax-soft',   (y * -0.04) + 'px');
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-
-    // Frases motivacionales (solo avance/logro)
     const QUOTES = [
       "“Paso a paso, llegas más lejos de lo que imaginas.”",
       "“Pequeños avances constantes construyen grandes logros.”",
@@ -108,7 +91,7 @@
       "“Haz que cada semestre cuente.”"
     ];
     const qbox = document.getElementById("quote-box");
-    setInterval(() => { qbox.textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)] }, 9000);
+    setInterval(()=>{ qbox.textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)] }, 9000);
   </script>
 </body>
 </html>
