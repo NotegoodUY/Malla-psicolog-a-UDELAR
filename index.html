@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <!-- Decoración sutil (parallax suave) -->
+  <!-- Decoración sutil (parallax) -->
   <div class="bg-decor" aria-hidden="true">
     <span class="sparkle s1"></span>
     <span class="sparkle s2"></span>
@@ -17,24 +17,19 @@
     <span class="petal p3"></span>
   </div>
 
+  <!-- Header centrado -->
   <header class="site-header site-header--center">
-  <!-- columna izquierda vacía, ayuda a centrar de forma perfecta -->
-  <div class="header-spacer" aria-hidden="true"></div>
-
-  <!-- Marca centrada -->
-  <div class="brand brand--center">
-    <span class="brand-badge"><span class="dot"></span>notegood</span>
-    <h1>Tu camino en Psicología – Udelar</h1>
-    <p class="subtitle">Grilla interactiva de avance con previaturas</p>
-  </div>
-
-  <!-- Acciones a la derecha -->
-  <nav class="actions">
-    <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙</button>
-    <a class="btn btn-malla" href="malla.html">Ir a la malla</a>
-  </nav>
-</header>
-
+    <div class="header-spacer" aria-hidden="true"></div>
+    <div class="brand brand--center">
+      <span class="brand-badge"><span class="dot"></span>notegood</span>
+      <h1>Tu camino en Psicología – Udelar</h1>
+      <p class="subtitle">Grilla interactiva de avance con previaturas</p>
+    </div>
+    <nav class="actions">
+      <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙</button>
+      <a class="btn btn-malla" href="malla.html">Ir a la malla</a>
+    </nav>
+  </header>
 
   <main class="container narrow stack-xl">
     <!-- HERO SPOTLIGHT -->
@@ -52,7 +47,7 @@
       </div>
     </section>
 
-    <!-- Frase motivacional (solo avance/logro) -->
+    <!-- Frase motivacional -->
     <section class="card quote-card center">
       <p class="quote" id="quote-box">“Paso a paso, llegas más lejos de lo que imaginas.”</p>
     </section>
@@ -77,35 +72,34 @@
   </main>
 
   <footer class="footer center">
-    Hecho con amor y cansancio <strong>Notegood</strong>.
+    Hecho con destellos ✨ y flores 🌸 por <strong>Notegood</strong>.
   </footer>
 
   <script type="module">
-    // ===== Tema claro/oscuro (emoji) =====
+    // Tema claro/oscuro
     const KEY = "ng-theme";
     const btn = document.getElementById("btn-theme");
     const saved = localStorage.getItem(KEY) || "light";
     document.documentElement.setAttribute("data-theme", saved);
     btn.textContent = saved === "light" ? "🌙" : "☀️";
     btn.addEventListener("click", () => {
-      const current = document.documentElement.getAttribute("data-theme") || "light";
-      const next = current === "light" ? "dark" : "light";
+      const next = (document.documentElement.getAttribute("data-theme") || "light") === "light" ? "dark" : "light";
       document.documentElement.setAttribute("data-theme", next);
       localStorage.setItem(KEY, next);
       btn.textContent = next === "light" ? "🌙" : "☀️";
     });
 
-    // ===== Parallax en scroll (suave) =====
+    // Parallax suave
     const root = document.documentElement;
     const onScroll = () => {
       const y = window.scrollY || window.pageYOffset;
-      root.style.setProperty('--parallax-strong', (y * -0.08) + 'px'); // capa de gradientes
-      root.style.setProperty('--parallax-soft',   (y * -0.04) + 'px'); // decoraciones
+      root.style.setProperty('--parallax-strong', (y * -0.08) + 'px');
+      root.style.setProperty('--parallax-soft',   (y * -0.04) + 'px');
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    // ===== Frases motivacionales (avance/logro) =====
+    // Frases motivacionales (solo avance/logro)
     const QUOTES = [
       "“Paso a paso, llegas más lejos de lo que imaginas.”",
       "“Pequeños avances constantes construyen grandes logros.”",
@@ -114,8 +108,7 @@
       "“Haz que cada semestre cuente.”"
     ];
     const qbox = document.getElementById("quote-box");
-    setInterval(()=>{ qbox.textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)] }, 9000);
+    setInterval(() => { qbox.textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)] }, 9000);
   </script>
 </body>
 </html>
-
