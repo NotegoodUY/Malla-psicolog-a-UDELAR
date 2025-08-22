@@ -3,72 +3,64 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Malla – Psicología Udelar (Montevideo)</title>
+  <title>Malla – Psicología Udelar</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header class="site-header sticky">
-    <div class="brand">
+  <!-- Decoración -->
+  <div class="bg-decor" aria-hidden="true">
+    <span class="sparkle s1"></span>
+    <span class="sparkle s2"></span>
+    <span class="sparkle s3"></span>
+    <span class="petal p1"></span>
+    <span class="petal p2"></span>
+    <span class="petal p3"></span>
+  </div>
+
+  <header class="site-header site-header--center">
+    <a class="btn btn-ghost" href="index.html" title="Volver">←</a>
+
+    <div class="brand brand--center">
       <span class="brand-badge"><span class="dot"></span>notegood</span>
       <h1>Malla – Psicología Udelar</h1>
       <p class="subtitle">Progreso, filtros y previaturas</p>
     </div>
+
     <nav class="actions">
-      <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙 Oscuro</button>
-      <a class="btn btn-primary" href="index.html">Volver</a>
-      <button id="btn-clear" class="btn btn-danger">Reiniciar</button>
+      <button id="btn-theme" class="btn btn-ghost" title="Cambiar tema">🌙</button>
+      <button id="btn-reset" class="btn btn-danger" title="Reiniciar progreso">Reiniciar</button>
     </nav>
   </header>
 
-  <main class="container">
-    <div class="quote card" id="quote">
-      <span id="quote-box">...</span>
-    </div>
-
-    <section class="card progress-card">
-      <div class="progress-top">
-        <strong>Tu progreso</strong>
-        <span id="progress-label" class="muted">0/0 (0%)</span>
-      </div>
-      <div class="progress-outer">
-        <div id="progress-bar" class="progress-inner"></div>
-      </div>
-      <div id="progress-msg" class="muted" style="margin-top:6px">Vamos que se puede 💪</div>
-    </section>
-
-    <div id="legend" class="legend"></div>
-
-    <div id="malla-toolbar" class="toolbar">
+  <main class="container stack-xl">
+    <!-- Filtros -->
+    <div class="toolbar">
       <label class="switch">
-        <input type="checkbox" id="toggle-cursando" checked />
+        <input type="checkbox" id="showTaking" />
         <span>Mostrar “cursando”</span>
       </label>
+
       <label class="switch">
-        <input type="checkbox" id="toggle-bloqueadas" checked />
+        <input type="checkbox" id="showLocked" />
         <span>Mostrar bloqueadas</span>
       </label>
-      <input id="search" class="search" type="search" placeholder="Buscar materia..." />
+
+      <input class="search" id="search" type="search" placeholder="Buscar materia..." />
     </div>
 
-    <div id="malla-container" class="grid"></div>
+    <!-- Leyenda -->
+    <div class="legend">
+      <span class="chip"><span class="swatch" style="background:#b7f7c2"></span>Aprobada</span>
+      <span class="chip"><span class="swatch" style="background:#ffe69a"></span>Cursando</span>
+      <span class="chip"><span class="swatch" style="background:#f7c2cc"></span>Bloqueada</span>
+    </div>
+
+    <!-- Grilla -->
+    <div class="grid" id="grid">
+      <!-- Se llena desde app.js -->
+    </div>
   </main>
 
-  <template id="tpl-chip">
-    <div class="chip"></div>
-  </template>
-
-  <script type="module">
-    import './js/app.js';
-    import { initTheme, toggleTheme } from './js/theme.js';
-
-    initTheme(); // por defecto claro
-    document.getElementById('btn-theme').addEventListener('click', toggleTheme);
-    document.getElementById('btn-clear').addEventListener('click', () => {
-      if (confirm('¿Seguro que querés borrar tu avance?')) {
-        localStorage.removeItem('malla-psico-state-v1');
-        location.reload();
-      }
-    });
-  </script>
+  <script src="js/app.js" type="module"></script>
 </body>
 </html>
