@@ -1,254 +1,161 @@
-// Notegood · Malla Psicología (Udelar Montevideo)
-// Flow Notegood: frases, progreso, toasts y confetti :)
+// js/app.js
+// Lógica de malla: carga JSON, render, previaturas y progreso
+const SAVE_KEY = 'ng-psico-progress';
+const DATA_URL = "../materias_psico.json"; // JSON en raíz
 
-const DATA_URL = "../materias_psico.json";
-const LS_STATE = "malla-psico-state-v1";
-
-const state = {
-  aprobadas: new Set(),
-  cursando: new Set(),
-  data: { areas: [], materias: [] },
-  byCodigo: new Map(),
+// Estado
+const progress = {
+  approved: new Set(),
+  taking: new Set(),
+};
+const options = {
+  showTaking: false,
+  showLocked: true,
+  search: '',
 };
 
-// Frases
-const QUOTES = [
-  "“La vida no es lo que te pasa, sino cómo respondes a ello.” — Epicteto",
-  "“Nada está perdido si se tiene el valor de proclamar que todo está perdido y hay que empezar de nuevo.” — Julio Cortázar",
-  "“No vemos las cosas como son, las vemos como somos.” — Anaïs Nin",
-  "“El éxito es la suma de pequeños esfuerzos repetidos día tras día.” — Robert Collier",
-  "“Donde tus talentos y las necesidades del mundo se cruzan, ahí está tu vocación.” — Aristóteles",
-  "“Si no puedes volar, corre; si no puedes correr, camina; pero seguí adelante.” — Martin Luther King Jr.",
-  "“Cambiar es difícil al principio, caótico en el medio y precioso al final.” — Robin Sharma",
-  "“La motivación te pone en marcha, el hábito te mantiene.” — Jim Ryun"
-];
-function setRandomQuote() {
-  const q = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-  const box = document.getElementById("quote-box");
-  if (box) box.textContent = q;
-}
+// Helpers
+const byId = (id) => document.getElementById(id);
+const grid = () => byId('grid');
 
-// Storage
-function loadState() {
+function loadProgress() {
   try {
-    const raw = localStorage.getItem(LS_STATE);
-    if (!raw) return;
-    const obj = JSON.parse(raw);
-    state.aprobadas = new Set(obj.aprobadas || []);
-    state.cursando  = new Set(obj.cursando  || []);
+    const raw = JSON.parse(localStorage.getItem(SAVE_KEY) || '{}');
+    (raw.approved || []).forEach(id => progress.approved.add(String(id)));
+    (raw.taking || []).forEach(id => progress.taking.add(String(id)));
   } catch {}
 }
-function saveState() {
-  localStorage.setItem(LS_STATE, JSON.stringify({
-    aprobadas: [...state.aprobadas],
-    cursando:  [...state.cursando]
+function saveProgress() {
+  localStorage.setItem(SAVE_KEY, JSON.stringify({
+    approved: [...progress.approved],
+    taking:   [...progress.taking],
   }));
 }
-export function resetState() {
-  localStorage.removeItem(LS_STATE);
-  state.aprobadas.clear();
-  state.cursando.clear();
+
+function normalizeMateria(m) {
+  const nombre = m.nombre || m.name || m.titulo || 'Materia';
+  const idBase = m.id || m.codigo || m.code || nombre;
+  const id = String(idBase).toLowerCase().replace(/\s+/g, '-');
+  const semestre = Number(m.semestre ?? m.semester ?? m.cuatrimestre ?? m.nivel ?? 0);
+  const area = m.area || m.modulo || m.módulo || 'General';
+  const previas = (m.previas || m.prerrequisitos || m.reqs || []).map(x => String(x).toLowerCase().replace(/\s+/g,'-'));
+  const creditos = m.creditos ?? m.créditos ?? m.credits ?? null;
+  return { id, nombre, semestre, area, previas, creditos, raw: m };
 }
 
-// DOM utils
-const $ = (sel) => document.querySelector(sel);
-const container = $("#malla-container");
-
-function toast(msg, ms = 1800) {
-  const el = document.createElement("div");
-  el.className = "toast";
-  el.textContent = msg;
-  document.body.appendChild(el);
-  requestAnimationFrame(() => el.classList.add("show"));
-  setTimeout(() => { el.classList.remove("show"); setTimeout(()=>el.remove(),250); }, ms);
-}
-function confettiBurst(x = innerWidth/2, y = 80) {
-  const n = 22;
-  for (let i = 0; i < n; i++) {
-    const p = document.createElement("i");
-    p.className = "confetti";
-    p.style.left = `${x}px`; p.style.top = `${y}px`;
-    const angle = (Math.PI * 2 * i) / n;
-    const speed = 2 + Math.random() * 3;
-    p.style.setProperty("--vx", Math.cos(angle) * speed);
-    p.style.setProperty("--vy", Math.sin(angle) * speed - 2);
-    p.style.background = i % 2 ? "var(--brand)" : "var(--brand-2)";
-    document.body.appendChild(p);
-    setTimeout(() => p.remove(), 1200);
-  }
+function isUnlocked(m) {
+  // Desbloquea si TODAS sus previas están aprobadas o cursándose
+  return m.previas.every(pid => progress.approved.has(pid) || progress.taking.has(pid));
 }
 
-// Init
-async function init() {
-  loadState();
-  setRandomQuote();
-  setInterval(setRandomQuote, 12000);
+function matchesSearch(m, q) {
+  if (!q) return true;
+  q = q.toLowerCase().trim();
+  return m.nombre.toLowerCase().includes(q) || m.area.toLowerCase().includes(q) || m.id.includes(q);
+}
 
-  const res = await fetch(DATA_URL);
-  const data = await res.json();
-  state.data = data;
-  state.byCodigo = new Map(data.materias.map(m => [m.codigo, m]));
+function createColumn(title) {
+  const col = document.createElement('div');
+  col.className = 'column';
+  const h = document.createElement('div');
+  h.className = 'col-title';
+  h.textContent = title;
+  col.appendChild(h);
+  return col;
+}
 
-  renderLegend();
-  renderGrid();
-  updateProgress();
+function materiaCard(m) {
+  const isApproved = progress.approved.has(m.id);
+  const isTaking = progress.taking.has(m.id);
+  const locked = !isUnlocked(m) && !isApproved && !isTaking;
 
-  $("#toggle-cursando")?.addEventListener("change", renderGrid);
-  $("#toggle-bloqueadas")?.addEventListener("change", renderGrid);
-  $("#search")?.addEventListener("input", renderGrid);
-  $("#btn-clear")?.addEventListener("click", () => {
-    if (confirm("¿Seguro que querés borrar tu avance?")) {
-      resetState(); renderGrid(); updateProgress();
-      toast("Avance reiniciado ✨");
+  const el = document.createElement('div');
+  el.className = 'card-materia' + (locked ? ' locked' : '');
+  el.dataset.mid = m.id;
+
+  const head = document.createElement('div'); head.className = 'header';
+  const ttl = document.createElement('div'); ttl.className = 'title'; ttl.textContent = m.nombre;
+  head.appendChild(ttl);
+
+  const meta = document.createElement('div'); meta.className = 'meta';
+  meta.textContent = `${m.area}${m.creditos ? ` • ${m.creditos} créditos` : ''}`;
+
+  const tags = document.createElement('div'); tags.className = 'tags';
+  const t = document.createElement('span'); t.className = 'tag';
+  t.textContent = m.previas.length ? `Previa(s): ${m.previas.join(', ')}` : 'Sin previaturas';
+  tags.appendChild(t);
+
+  const statebar = document.createElement('div'); statebar.className = 'statebar';
+  const b1 = document.createElement('button'); b1.textContent = 'Aprobada'; b1.className='state-ok';
+  const b2 = document.createElement('button'); b2.textContent = 'Cursando'; b2.className='state-warn';
+  const b3 = document.createElement('button'); b3.textContent = 'Quitar';   b3.className='state-locked';
+  b1.onclick = () => { progress.approved.add(m.id); progress.taking.delete(m.id); saveProgress(); render(); };
+  b2.onclick = () => { progress.taking.add(m.id); progress.approved.delete(m.id); saveProgress(); render(); };
+  b3.onclick = () => { progress.approved.delete(m.id); progress.taking.delete(m.id); saveProgress(); render(); };
+  statebar.append(b1,b2,b3);
+
+  const tip = document.createElement('div'); tip.className='tooltip';
+  if (locked && m.previas.length) tip.textContent = 'Bloqueada. Necesitas: ' + m.previas.join(', ');
+  else if (isApproved)           tip.textContent = 'Marcada como aprobada.';
+  else if (isTaking)             tip.textContent = 'Marcada como cursando.';
+  else                           tip.textContent = 'Disponible.';
+
+  el.append(head, meta, tags, statebar, tip);
+
+  // Filtros visuales
+  if (!options.showLocked && locked) el.style.display = 'none';
+  if (!options.showTaking && isTaking) el.style.display = 'none';
+  if (!matchesSearch(m, options.search)) el.style.display = 'none';
+
+  return el;
+}
+
+function renderGrid(materias) {
+  const root = grid();
+  root.innerHTML = '';
+
+  // columnas 1..8 + Extras
+  const cols = new Map();
+  for (let s=1; s<=8; s++) cols.set(String(s), createColumn(`${s}.º`));
+  cols.set('extras', createColumn('Extras'));
+
+  materias.forEach(m => {
+    const k = (m.semestre >=1 && m.semestre <=8) ? String(m.semestre) : 'extras';
+    cols.get(k).appendChild(materiaCard(m));
+  });
+
+  // Montar
+  for (let s=1; s<=8; s++) root.appendChild(cols.get(String(s)));
+  root.appendChild(cols.get('extras'));
+}
+
+// ---- Init principal ----
+let ALL = [];
+
+export async function initMalla() {
+  // Theme se maneja desde theme.js
+  // Controles
+  byId('btn-reset')?.addEventListener('click', () => {
+    if (confirm('¿Reiniciar tu progreso guardado?')) {
+      localStorage.removeItem(SAVE_KEY);
+      progress.approved.clear();
+      progress.taking.clear();
+      render();
     }
   });
+  byId('showTaking')?.addEventListener('change', e => { options.showTaking = e.target.checked; render(); });
+  byId('showLocked')?.addEventListener('change', e => { options.showLocked = e.target.checked; render(); });
+  byId('search')?.addEventListener('input', e => { options.search = e.target.value; render(); });
+
+  loadProgress();
+
+  // Cargar materias
+  const res = await fetch(DATA_URL);
+  const data = await res.json();
+  const arr = Array.isArray(data) ? data : (data.materias || data.items || []);
+  ALL = arr.map(normalizeMateria);
+
+  render();
 }
 
-function renderLegend() {
-  const wrap = $("#legend");
-  if (!wrap) return;
-  wrap.innerHTML = "";
-  state.data.areas.forEach(a => {
-    const chip = document.createElement("div");
-    chip.className = "chip";
-    const sw = document.createElement("span");
-    sw.className = "swatch"; sw.style.background = a.color;
-    const txt = document.createElement("span"); txt.textContent = a.nombre;
-    chip.append(sw, txt); wrap.appendChild(chip);
-  });
-}
-
-function renderGrid() {
-  const showCurs    = $("#toggle-cursando")?.checked ?? true;
-  const showLocked  = $("#toggle-bloqueadas")?.checked ?? true;
-  const q           = ($("#search")?.value || "").toLowerCase();
-
-  // columns 1..8 + extras(9)
-  const cols = new Map(); for (let s=1;s<=8;s++) cols.set(s,[]); cols.set(9,[]);
-  const items = state.data.materias.filter(m => !q || (`${m.nombre} ${m.codigo}`.toLowerCase().includes(q)));
-  items.forEach(m => (cols.get((m.semestre>=1 && m.semestre<=8)?m.semestre:9)).push(m));
-  for (const arr of cols.values()) arr.sort((a,b)=> (a.area||"").localeCompare(b.area||"") || a.nombre.localeCompare(b.nombre));
-
-  container.innerHTML = "";
-  let totalRendered = 0;
-
-  for (const [sem, arr] of cols) {
-    const col = document.createElement("div");
-    col.className = "column";
-    const title = document.createElement("h3");
-    title.className = "col-title";
-    title.textContent = sem === 9 ? "Extras / Optativas / Prácticas" : `${sem}º semestre`;
-    col.appendChild(title);
-
-    arr.forEach(m => {
-      const locked = !checkUnlocked(m);
-      const isAprob = state.aprobadas.has(m.codigo);
-      const isCurs  = state.cursando.has(m.codigo);
-
-      if (!showLocked && locked && !isAprob && !isCurs) return;
-      if (!showCurs && isCurs) return;
-
-      totalRendered++;
-
-      const card = document.createElement("div");
-      card.className = "card-materia";
-      if (locked && !isAprob && !isCurs) card.classList.add("locked");
-
-      const head  = document.createElement("div"); head.className = "header";
-      const dot   = document.createElement("span"); dot.className = "dot"; dot.style.background = colorForArea(m.area);
-      const badge = document.createElement("span"); badge.className = "badge"; badge.textContent = m.codigo;
-      const t     = document.createElement("div"); t.className = "title"; t.textContent = m.nombre;
-      head.append(dot,badge,t);
-
-      const meta = document.createElement("div"); meta.className = "meta";
-      meta.textContent = [areaName(m.area), m.creditos?`· ${m.creditos} cr.`:"", m.semestre?`· S${m.semestre}`:""].filter(Boolean).join(" ");
-
-      const tags = document.createElement("div"); tags.className = "tags";
-      if (isAprob) addTag(tags, "APROBADA ✅");
-      if (isCurs)  addTag(tags, "CURSANDO ⏳");
-      if (locked && !isAprob && !isCurs) addTag(tags, "BLOQUEADA 🔒");
-
-      const bar = document.createElement("div"); bar.className = "statebar";
-      const b1 = document.createElement("button"); b1.className="state-ok"; b1.textContent = isAprob? "✓ Marcada aprobada":"Marcar aprobada";
-      b1.addEventListener("click", (ev)=>{
-        const before = state.aprobadas.has(m.codigo);
-        toggleAprobada(m.codigo); renderGrid(); updateProgress();
-        if (!before && state.aprobadas.has(m.codigo)) {
-          const msgs = ["¡Otra tachada! 💪","Sumaste progreso, crack ✨","Paso a paso, ¡pero firmes! 🧠","¡Bien ahí! Cada materia cuenta 💜","Notegood vibra: ¡lo lograste! 🌈"];
-          toast(msgs[Math.floor(Math.random()*msgs.length)]);
-          const r = ev.target.getBoundingClientRect();
-          confettiBurst(r.left + r.width/2, r.top + scrollY);
-        }
-      });
-
-      const b2 = document.createElement("button"); b2.className="state-warn"; b2.textContent = isCurs? "⏳ Marcada cursando":"Marcar cursando";
-      b2.addEventListener("click", ()=>{ toggleCursando(m.codigo); renderGrid(); toast("¡A cursar se ha dicho! 📚"); });
-
-      const b3 = document.createElement("button"); b3.className="state-locked"; b3.textContent = "Ver requisitos";
-      b3.addEventListener("click", ()=>{
-        const faltan = faltantes(m).map(c => state.byCodigo.get(c)?.nombre || c);
-        alert(faltan.length ? `Te falta(n):\n• ${faltan.join("\n• ")}` : "No tiene previaturas.");
-      });
-
-      const tip = document.createElement("div");
-      tip.className = "tooltip";
-      tip.innerHTML = tooltipHtml(m);
-
-      bar.append(b1,b2,b3);
-      card.append(head, meta, tags, bar, tip);
-      col.appendChild(card);
-    });
-
-    container.appendChild(col);
-  }
-
-  if (totalRendered === 0) {
-    const empty = document.createElement("div");
-    empty.className = "card";
-    empty.style.gridColumn = "1 / -1";
-    empty.innerHTML = `🤔 No hay materias que coincidan con tu búsqueda.<br><span class="muted">Probá borrar el texto o revisar los filtros.</span>`;
-    container.appendChild(empty);
-  }
-}
-
-function addTag(parent, text){ const el=document.createElement("span"); el.className="tag"; el.textContent=text; parent.appendChild(el); }
-function areaName(code){ const a=state.data.areas.find(x=>x.codigo===code); return a? a.nombre: code; }
-function colorForArea(code){ const a=state.data.areas.find(x=>x.codigo===code); return a? a.color:"#666"; }
-function checkUnlocked(m){ const req=m.previaturas||[]; return req.every(c=>state.aprobadas.has(c)); }
-function faltantes(m){ const req=m.previaturas||[]; return req.filter(c=>!state.aprobadas.has(c)); }
-
-function toggleAprobada(cod){ if(state.aprobadas.has(cod)){state.aprobadas.delete(cod);} else {state.aprobadas.add(cod); state.cursando.delete(cod);} saveState(); }
-function toggleCursando(cod){ if(state.cursando.has(cod)){state.cursando.delete(cod);} else {state.cursando.add(cod);} saveState(); }
-
-function tooltipHtml(m){
-  const prev=(m.previaturas||[]).map(c=>state.byCodigo.get(c)?.nombre||c);
-  return `
-    <strong>${m.nombre}</strong><br/>
-    <em>${areaName(m.area)}</em> · ${m.creditos || "-"} cr. · S${m.semestre || "-"}<br/>
-    <hr style="border-color:#222635">
-    <div><strong>Previaturas:</strong> ${prev.length ? prev.join("; ") : "—"}</div>
-    <div style="margin-top:4px;color:var(--muted)">Tip: marcá lo del ciclo inicial para destrabar más materias.</div>
-  `;
-}
-
-// Progreso
-function updateProgress(){
-  const total = state.data.materias.filter(m => m.creditos !== 0 && m.semestre <= 8).length;
-  const aprob = state.aprobadas.size;
-  const pct   = total ? Math.round((aprob/total)*100) : 0;
-
-  const bar = $("#progress-bar"), label = $("#progress-label"), msg = $("#progress-msg");
-  if (!bar || !label || !msg) return;
-
-  bar.style.width = pct + "%";
-  label.textContent = `${aprob}/${total} (${pct}%)`;
-
-  if (pct === 0) msg.textContent = "¡Primer paso listo! Sumá tu primera materia 😊";
-  else if (pct < 25) msg.textContent = "Buen comienzo, constancia mata talento 💜";
-  else if (pct < 50) msg.textContent = "¡Ya se siente el avance! Seguimos 🧠";
-  else if (pct < 75) msg.textContent = "Más de la mitad, enorme 👏";
-  else if (pct < 100) msg.textContent = "Último tramo, ¡a fondo! 🚀";
-  else msg.textContent = "¡Malla completada! Te esperamos en el Parque Batlle a festejar 😜";
-}
-
-document.addEventListener("DOMContentLoaded", init);
+function render() { renderGrid(ALL); }
